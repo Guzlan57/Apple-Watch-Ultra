@@ -1,0 +1,1177 @@
+<!-- Apple Watch Ultra 3 Presentation
+╔══════════════════════════════════════════════════════════╗
+║           QUICK EDIT GUIDE                               ║
+║  Press [E] to toggle Edit Mode                           ║
+║  Click any text to edit it live                          ║
+║  Edits auto-save to localStorage                         ║
+║  "Reset to Default" button clears all edits              ║
+║  Arrow keys or buttons navigate slides                   ║
+╚══════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apple Watch Ultra 3 — Adventure Responsibly</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#000000;
+  --text-primary:#F5F5F7;
+  --text-secondary:#86868B;
+  --accent-orange:#FF6B00;
+  --accent-green:#30D158;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",sans-serif;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text-primary);font-family:var(--font);-webkit-font-smoothing:antialiased}
+
+/* ── SLIDE SYSTEM ─────────────────────────────── */
+#presentation{position:relative;width:100vw;height:100vh;overflow:hidden}
+.slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:60px 80px;
+  opacity:0;pointer-events:none;
+  transition:opacity 700ms ease;
+  background:var(--bg);
+}
+.slide.active{opacity:1;pointer-events:all}
+.slide.prev{opacity:0;pointer-events:none}
+
+/* ── SLIDE COUNTER ────────────────────────────── */
+#slide-counter{
+  position:fixed;bottom:24px;right:32px;
+  font-size:13px;color:var(--text-secondary);
+  z-index:100;letter-spacing:0.05em;
+  transition:opacity 300ms;
+}
+
+/* ── EDIT MODE ────────────────────────────────── */
+#edit-banner{
+  display:none;position:fixed;top:0;left:0;right:0;z-index:200;
+  background:#1C1C1E;color:var(--accent-orange);
+  text-align:center;padding:10px 16px;font-size:13px;font-weight:600;
+  letter-spacing:0.04em;
+}
+#edit-banner.show{display:block}
+body.edit-mode .slide.active{padding-top:100px}
+[data-key]{outline:none;transition:outline 150ms}
+body.edit-mode [data-key]:focus{outline:2px solid var(--accent-orange);outline-offset:3px;border-radius:4px}
+
+/* ── EDIT NAV BUTTONS ─────────────────────────── */
+#edit-prev,#edit-next{
+  display:none;position:fixed;bottom:60px;z-index:150;
+  background:#1C1C1E;color:var(--text-primary);border:1px solid #3A3A3C;
+  padding:10px 24px;border-radius:20px;cursor:pointer;font-size:14px;
+  transition:background 200ms;
+}
+#edit-prev:hover,#edit-next:hover{background:#3A3A3C}
+#edit-prev{left:32px}
+#edit-next{right:32px}
+body.edit-mode #edit-prev,body.edit-mode #edit-next{display:block}
+
+/* ── THUMBNAIL STRIP ──────────────────────────── */
+#thumbnail-strip{
+  display:none;position:fixed;bottom:0;left:0;right:0;
+  background:#0A0A0A;border-top:1px solid #1C1C1E;
+  padding:8px 16px;z-index:150;
+  flex-direction:row;gap:6px;align-items:center;justify-content:center;
+}
+body.edit-mode #thumbnail-strip{display:flex}
+.thumb{
+  width:36px;height:36px;border-radius:6px;
+  background:#1C1C1E;border:2px solid #3A3A3C;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:var(--text-secondary);cursor:pointer;
+  transition:border-color 200ms,background 200ms;flex-shrink:0;
+}
+.thumb:hover{background:#3A3A3C;border-color:#555}
+.thumb.active-thumb{border-color:var(--accent-orange);color:var(--accent-orange)}
+
+/* ── RESET BUTTON ─────────────────────────────── */
+#reset-btn{
+  display:none;position:fixed;top:46px;right:16px;z-index:210;
+  background:#3A0A0A;color:#FF453A;border:1px solid #FF453A;
+  padding:6px 14px;border-radius:14px;cursor:pointer;font-size:12px;
+}
+#reset-btn:hover{background:#FF453A;color:#fff}
+body.edit-mode #reset-btn{display:block}
+
+/* ── TYPOGRAPHY ───────────────────────────────── */
+.headline{font-size:clamp(36px,5vw,72px);font-weight:700;letter-spacing:-0.02em;line-height:1.05;text-align:center}
+.subheadline{font-size:clamp(16px,2vw,24px);color:var(--text-secondary);text-align:center;margin-top:12px;font-weight:400;letter-spacing:-0.01em}
+.stat-label{font-size:clamp(14px,1.5vw,20px);font-weight:600;color:var(--accent-green);letter-spacing:0.01em}
+.presenter-line{font-size:13px;color:var(--text-secondary);margin-top:24px;letter-spacing:0.02em}
+.spec-item{font-size:clamp(13px,1.3vw,17px);color:var(--text-secondary);margin:4px 0}
+.spec-item span{color:var(--text-primary);font-weight:500}
+.badge{
+  display:inline-block;background:#1C1C1E;border:1px solid #3A3A3C;
+  color:var(--text-primary);padding:6px 16px;border-radius:20px;
+  font-size:13px;font-weight:500;letter-spacing:0.02em;margin-top:12px;
+}
+.green{color:var(--accent-green)!important}
+.orange{color:var(--accent-orange)!important}
+
+/* ── ANIMATIONS ───────────────────────────────── */
+@keyframes watchFadeIn{
+  from{opacity:0;transform:perspective(600px) rotateY(-15deg) translateY(20px)}
+  to{opacity:1;transform:perspective(600px) rotateY(0deg) translateY(0)}
+}
+@keyframes watchRotate{
+  0%{transform:perspective(600px) rotateY(-20deg)}
+  50%{transform:perspective(600px) rotateY(20deg)}
+  100%{transform:perspective(600px) rotateY(-20deg)}
+}
+@keyframes signalWave{
+  0%{transform:scale(1);opacity:0.7}
+  100%{transform:scale(3.5);opacity:0}
+}
+@keyframes dropFall{
+  0%{transform:translateY(-30px);opacity:0}
+  20%{opacity:0.7}
+  80%{opacity:0.5}
+  100%{transform:translateY(120px);opacity:0}
+}
+@keyframes chipFlyIn{
+  0%{transform:translateY(100px) scale(0.5);opacity:0}
+  60%{transform:translateY(-10px) scale(1.05);opacity:1}
+  80%{transform:translateY(4px) scale(0.98)}
+  100%{transform:translateY(0) scale(1);opacity:1}
+}
+@keyframes sensorPulse{
+  0%,100%{opacity:0.4;r:3}
+  50%{opacity:1;r:5}
+}
+@keyframes shieldPulse{
+  0%,100%{opacity:0.15;transform:scale(1)}
+  50%{opacity:0.4;transform:scale(1.06)}
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes slideInRight{
+  from{opacity:0;transform:translateX(60px)}
+  to{opacity:1;transform:translateX(0)}
+}
+@keyframes countUpPulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.06)}
+  100%{transform:scale(1)}
+}
+@keyframes batteryFill{
+  from{width:0%}
+  to{width:100%}
+}
+@keyframes progressFill{
+  from{width:0%}
+  to{width:60%}
+}
+@keyframes glowBrightness{
+  0%,100%{filter:brightness(1)}
+  50%{filter:brightness(1.4) drop-shadow(0 0 20px rgba(255,255,255,0.3))}
+}
+@keyframes logoFade{
+  from{opacity:0;transform:scale(0.8)}
+  to{opacity:1;transform:scale(1)}
+}
+
+.anim-fade-up{opacity:0;transform:translateY(30px);transition:opacity 600ms ease,transform 600ms ease}
+.slide.active .anim-fade-up{opacity:1;transform:translateY(0)}
+.anim-slide-right{opacity:0;transform:translateX(60px);transition:opacity 600ms ease,transform 600ms ease}
+.slide.active .anim-slide-right{opacity:1;transform:translateX(0)}
+.delay-1{transition-delay:150ms!important}
+.delay-2{transition-delay:300ms!important}
+.delay-3{transition-delay:450ms!important}
+.delay-4{transition-delay:600ms!important}
+.delay-5{transition-delay:750ms!important}
+.delay-6{transition-delay:900ms!important}
+.delay-7{transition-delay:1050ms!important}
+.delay-8{transition-delay:1200ms!important}
+
+/* ── TWO COLUMN LAYOUT ────────────────────────── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;width:100%;max-width:1100px}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px;width:100%;max-width:1100px}
+
+/* ── FEATURE GRID ─────────────────────────────── */
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 30px;margin-top:16px}
+.feature-item{font-size:clamp(13px,1.2vw,16px);color:var(--text-secondary);padding:8px 0;border-bottom:1px solid #1C1C1E}
+.feature-item span{color:var(--text-primary);font-weight:500}
+
+/* ── CARD ─────────────────────────────────────── */
+.card{
+  background:#0A0A0A;border:1px solid #1C1C1E;border-radius:20px;
+  padding:28px 24px;text-align:center;
+}
+.card-icon{font-size:40px;margin-bottom:12px;display:block}
+.card-title{font-size:18px;font-weight:600;margin-bottom:8px;color:var(--text-primary)}
+.card-body{font-size:14px;color:var(--text-secondary);line-height:1.5}
+
+/* ── BATTERY BAR ──────────────────────────────── */
+.battery-container{width:100%;max-width:320px;margin:16px 0}
+.battery-track{height:12px;background:#1C1C1E;border-radius:6px;overflow:hidden}
+.battery-fill{height:100%;width:0%;background:var(--accent-green);border-radius:6px;transition:width 2s ease}
+.battery-label{font-size:12px;color:var(--text-secondary);margin-top:6px;text-align:right}
+
+/* ── PROGRESS BAR ─────────────────────────────── */
+.progress-container{width:100%;max-width:600px;margin:24px 0}
+.progress-track{height:10px;background:#1C1C1E;border-radius:5px;overflow:hidden;position:relative}
+.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent-green),#34C759);border-radius:5px;transition:width 2s ease}
+.progress-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--text-secondary);margin-top:6px}
+
+/* ── SIGNAL RINGS ─────────────────────────────── */
+.signal-container{position:relative;display:inline-flex;align-items:center;justify-content:center}
+.signal-ring{
+  position:absolute;border:2px solid var(--accent-orange);border-radius:50%;
+  width:120px;height:120px;opacity:0;
+  animation:signalWave 2.5s ease-out infinite;
+}
+.signal-ring:nth-child(2){animation-delay:0.7s}
+.signal-ring:nth-child(3){animation-delay:1.4s}
+
+/* ── WATER DROPS ──────────────────────────────── */
+.drop{
+  position:absolute;width:6px;height:10px;
+  background:linear-gradient(180deg,rgba(100,180,255,0.8),rgba(100,180,255,0.2));
+  border-radius:50% 50% 60% 60%;
+  animation:dropFall 1.5s ease-in infinite;
+}
+.drop:nth-child(1){left:20%;animation-delay:0s}
+.drop:nth-child(2){left:70%;animation-delay:0.3s}
+.drop:nth-child(3){left:40%;animation-delay:0.6s}
+.drop:nth-child(4){left:10%;animation-delay:0.9s}
+.drop:nth-child(5){left:80%;animation-delay:1.2s}
+
+/* ── SHIELD RING ──────────────────────────────── */
+.shield-ring{
+  position:absolute;border:3px solid #30D158;border-radius:50%;
+  width:220px;height:220px;
+  animation:shieldPulse 2s ease-in-out infinite;pointer-events:none;
+}
+
+/* ── EXPLODED VIEW (SLIDE 9) ─────────────────── */
+.exploded-view{
+  position:relative;display:flex;flex-direction:column;align-items:center;
+  gap:6px;
+}
+.explode-layer{
+  width:160px;height:22px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:600;letter-spacing:0.05em;
+  position:relative;cursor:default;
+  transform:translateY(0);transition:transform 800ms cubic-bezier(0.34,1.56,0.64,1),opacity 600ms ease;
+  opacity:0;
+}
+.explode-layer.animate{opacity:1}
+.explode-layer-1{background:linear-gradient(135deg,#5AC8FA,#007AFF);color:#fff;transform:translateY(0)}
+.explode-layer-2{background:linear-gradient(135deg,#1C1C1E,#2C2C2E);color:#F5F5F7;border:1px solid #3A3A3C}
+.explode-layer-3{background:linear-gradient(135deg,#2C2C2E,#1C1C1E);color:#F5F5F7;border:1px solid #FF6B00}
+.explode-layer-4{background:linear-gradient(135deg,#1A3A1A,#0D2A0D);color:#30D158;border:1px solid #30D158}
+.explode-layer-5{background:linear-gradient(135deg,#1C1C1E,#2C2C2E);color:#F5F5F7;border:1px solid #30D158}
+.explode-layer-6{background:linear-gradient(135deg,#3A3A3C,#2C2C2E);color:#F5F5F7}
+.layer-label{
+  position:absolute;left:180px;white-space:nowrap;
+  font-size:11px;color:var(--accent-green);font-weight:500;
+}
+.layer-label::before{
+  content:'';position:absolute;left:-18px;top:50%;width:14px;height:1px;
+  background:var(--accent-green);
+}
+
+/* ── SLIDE 9 STAT NUMBERS ─────────────────────── */
+.stat-number{font-size:clamp(28px,3vw,44px);font-weight:700;color:var(--accent-green)}
+.stat-desc{font-size:13px;color:var(--text-secondary);margin-top:2px}
+
+/* ── PILLAR ICONS ─────────────────────────────── */
+.pillar{text-align:center;padding:20px}
+.pillar-icon{font-size:36px;display:block;margin-bottom:10px}
+.pillar-title{font-size:16px;font-weight:600;color:var(--text-primary);margin-bottom:6px}
+.pillar-stat{font-size:13px;color:var(--accent-green);font-weight:500}
+
+/* ── APPLE LOGO ───────────────────────────────── */
+.apple-logo{font-size:clamp(48px,8vw,96px);line-height:1}
+
+/* ── RESPONSIVE ───────────────────────────────── */
+@media(max-width:768px){
+  .slide{padding:40px 30px}
+  .two-col,.three-col{grid-template-columns:1fr;gap:30px}
+  .headline{font-size:32px}
+  .layer-label{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ── EDIT MODE UI ──────────────────────────── -->
+<div id="edit-banner">&#9999;&#65039; EDIT MODE &mdash; Click any text to edit. Press E to return to Present Mode.</div>
+<button id="reset-btn" onclick="resetDefaults()">Reset to Default</button>
+<button id="edit-prev" onclick="prev()">&#8592; Prev</button>
+<button id="edit-next" onclick="next()">Next &#8594;</button>
+<div id="slide-counter">1 / 12</div>
+<div id="thumbnail-strip"></div>
+
+<div id="presentation">
+
+<!-- SLIDE 1: Title -->
+<div class="slide" id="slide-1">
+  <div class="anim-fade-up" style="animation:logoFade 800ms ease both 100ms">
+    <span class="apple-logo" data-key="s1-logo"> </span>
+  </div>
+  <div style="margin:20px 0;animation:watchFadeIn 1s cubic-bezier(0.34,1.56,0.64,1) both 300ms">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" width="220" height="280" style="overflow:visible">
+  <!-- OPTIONAL: Replace with real Apple Watch image -->
+  <!-- Band stubs -->
+  <rect x="72" y="0" width="76" height="42" rx="10" fill="#1A1A1A"/>
+  <rect x="72" y="238" width="76" height="42" rx="10" fill="#1A1A1A"/>
+  <!-- Band texture lines -->
+  <line x1="80" y1="8" x2="164" y2="8" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="16" x2="164" y2="16" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="24" x2="164" y2="24" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="32" x2="164" y2="32" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="250" x2="164" y2="250" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="258" x2="164" y2="258" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="266" x2="164" y2="266" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="274" x2="164" y2="274" stroke="#252525" stroke-width="1"/>
+  <!-- Titanium case gradient -->
+  <defs>
+    <linearGradient id="caseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4A4A4C"/>
+      <stop offset="40%" stop-color="#3A3A3C"/>
+      <stop offset="100%" stop-color="#1C1C1E"/>
+    </linearGradient>
+    <linearGradient id="displayGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0A0A0A"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+  </defs>
+  <rect x="16" y="38" width="188" height="204" rx="28" fill="url(#caseGrad)"/>
+  <!-- Case edge highlight -->
+  <rect x="16" y="38" width="188" height="204" rx="28" fill="none" stroke="#5A5A5C" stroke-width="1.5"/>
+  <!-- Display bezel -->
+  <rect x="28" y="50" width="164" height="180" rx="20" fill="#0A0A0A"/>
+  <!-- Display screen -->
+  <rect x="34" y="56" width="152" height="168" rx="16" fill="url(#displayGrad)"/>
+  <!-- Time display -->
+  <text x="110" y="116" text-anchor="middle" fill="white" font-family="-apple-system,Helvetica" font-size="38" font-weight="300" letter-spacing="-2">9:41</text>
+  <!-- Date -->
+  <text x="110" y="136" text-anchor="middle" fill="#86868B" font-family="-apple-system,Helvetica" font-size="11">FRI 14</text>
+  <!-- Complications row -->
+  <circle cx="72" cy="158" r="14" fill="#1C1C1E"/>
+  <text x="72" y="162" text-anchor="middle" fill="#30D158" font-size="10" font-family="-apple-system,Helvetica">HR</text>
+  <circle cx="110" cy="158" r="14" fill="#1C1C1E"/>
+  <text x="110" y="162" text-anchor="middle" fill="#FF6B00" font-size="10" font-family="-apple-system,Helvetica">UV</text>
+  <circle cx="148" cy="158" r="14" fill="#1C1C1E"/>
+  <text x="148" y="162" text-anchor="middle" fill="#5AC8FA" font-size="10" font-family="-apple-system,Helvetica">°C</text>
+  <!-- Bottom complications -->
+  <rect x="50" y="182" width="120" height="26" rx="8" fill="#1C1C1E"/>
+  <text x="110" y="199" text-anchor="middle" fill="#FF6B00" font-size="10" font-family="-apple-system,Helvetica" font-weight="600">WORKOUT BUDDY</text>
+  <!-- Orange bezel markers -->
+  <rect x="106" y="57" width="8" height="4" rx="2" fill="#FF6B00"/>
+  <rect x="106" y="219" width="8" height="4" rx="2" fill="#FF6B00"/>
+  <rect x="35" y="136" width="4" height="8" rx="2" fill="#FF6B00"/>
+  <rect x="181" y="136" width="4" height="8" rx="2" fill="#FF6B00"/>
+  <!-- Digital Crown (right side) -->
+  <rect x="202" y="88" width="14" height="36" rx="6" fill="#3A3A3C"/>
+  <rect x="202" y="88" width="14" height="36" rx="6" fill="none" stroke="#FF6B00" stroke-width="2"/>
+  <rect x="204" y="92" width="10" height="4" rx="2" fill="#4A4A4C"/>
+  <rect x="204" y="100" width="10" height="4" rx="2" fill="#4A4A4C"/>
+  <rect x="204" y="108" width="10" height="4" rx="2" fill="#4A4A4C"/>
+  <!-- Side Button (right, below crown) -->
+  <rect x="202" y="132" width="14" height="22" rx="5" fill="#2A2A2C"/>
+  <!-- Action Button (LEFT side, orange - Ultra signature) -->
+  <rect x="4" y="96" width="14" height="28" rx="5" fill="#FF6B00"/>
+  <rect x="7" y="103" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+  <rect x="7" y="109" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+  <rect x="7" y="115" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+</svg>
+  </div>
+  <h1 class="headline anim-fade-up delay-3" data-key="s1-headline">Apple Watch Ultra 3</h1><!-- EDIT: main title -->
+  <p class="subheadline anim-fade-up delay-4" data-key="s1-subheadline">The Most Advanced Apple Watch. The Most Sustainable Yet.</p><!-- EDIT: subtitle -->
+  <p class="presenter-line anim-fade-up delay-5" data-key="s1-presenter">Jude Guzlan &middot; Public Speaking &middot; 3/14/2026</p><!-- EDIT: presenter info -->
+</div>
+
+<!-- SLIDE 2: Titanium -->
+<div class="slide" id="slide-2">
+  <div class="two-col" style="max-width:1100px">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:16px">
+      <h1 class="headline anim-fade-up" style="text-align:left" data-key="s2-headline">Forged Different.</h1><!-- EDIT: titanium headline -->
+      <div style="animation:watchRotate 8s ease-in-out infinite;margin-top:10px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" width="220" height="280" style="overflow:visible">
+  <!-- OPTIONAL: Replace with real Apple Watch image -->
+  <!-- Band stubs -->
+  <rect x="72" y="0" width="76" height="42" rx="10" fill="#1A1A1A"/>
+  <rect x="72" y="238" width="76" height="42" rx="10" fill="#1A1A1A"/>
+  <!-- Band texture lines -->
+  <line x1="80" y1="8" x2="164" y2="8" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="16" x2="164" y2="16" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="24" x2="164" y2="24" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="32" x2="164" y2="32" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="250" x2="164" y2="250" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="258" x2="164" y2="258" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="266" x2="164" y2="266" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="274" x2="164" y2="274" stroke="#252525" stroke-width="1"/>
+  <!-- Titanium case gradient -->
+  <defs>
+    <linearGradient id="caseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4A4A4C"/>
+      <stop offset="40%" stop-color="#3A3A3C"/>
+      <stop offset="100%" stop-color="#1C1C1E"/>
+    </linearGradient>
+    <linearGradient id="displayGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0A0A0A"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+  </defs>
+  <rect x="16" y="38" width="188" height="204" rx="28" fill="url(#caseGrad)"/>
+  <!-- Case edge highlight -->
+  <rect x="16" y="38" width="188" height="204" rx="28" fill="none" stroke="#5A5A5C" stroke-width="1.5"/>
+  <!-- Display bezel -->
+  <rect x="28" y="50" width="164" height="180" rx="20" fill="#0A0A0A"/>
+  <!-- Display screen -->
+  <rect x="34" y="56" width="152" height="168" rx="16" fill="url(#displayGrad)"/>
+  <!-- Time display -->
+  <text x="110" y="116" text-anchor="middle" fill="white" font-family="-apple-system,Helvetica" font-size="38" font-weight="300" letter-spacing="-2">9:41</text>
+  <!-- Date -->
+  <text x="110" y="136" text-anchor="middle" fill="#86868B" font-family="-apple-system,Helvetica" font-size="11">FRI 14</text>
+  <!-- Complications row -->
+  <circle cx="72" cy="158" r="14" fill="#1C1C1E"/>
+  <text x="72" y="162" text-anchor="middle" fill="#30D158" font-size="10" font-family="-apple-system,Helvetica">HR</text>
+  <circle cx="110" cy="158" r="14" fill="#1C1C1E"/>
+  <text x="110" y="162" text-anchor="middle" fill="#FF6B00" font-size="10" font-family="-apple-system,Helvetica">UV</text>
+  <circle cx="148" cy="158" r="14" fill="#1C1C1E"/>
+  <text x="148" y="162" text-anchor="middle" fill="#5AC8FA" font-size="10" font-family="-apple-system,Helvetica">°C</text>
+  <!-- Bottom complications -->
+  <rect x="50" y="182" width="120" height="26" rx="8" fill="#1C1C1E"/>
+  <text x="110" y="199" text-anchor="middle" fill="#FF6B00" font-size="10" font-family="-apple-system,Helvetica" font-weight="600">WORKOUT BUDDY</text>
+  <!-- Orange bezel markers -->
+  <rect x="106" y="57" width="8" height="4" rx="2" fill="#FF6B00"/>
+  <rect x="106" y="219" width="8" height="4" rx="2" fill="#FF6B00"/>
+  <rect x="35" y="136" width="4" height="8" rx="2" fill="#FF6B00"/>
+  <rect x="181" y="136" width="4" height="8" rx="2" fill="#FF6B00"/>
+  <!-- Digital Crown (right side) -->
+  <rect x="202" y="88" width="14" height="36" rx="6" fill="#3A3A3C"/>
+  <rect x="202" y="88" width="14" height="36" rx="6" fill="none" stroke="#FF6B00" stroke-width="2"/>
+  <rect x="204" y="92" width="10" height="4" rx="2" fill="#4A4A4C"/>
+  <rect x="204" y="100" width="10" height="4" rx="2" fill="#4A4A4C"/>
+  <rect x="204" y="108" width="10" height="4" rx="2" fill="#4A4A4C"/>
+  <!-- Side Button (right, below crown) -->
+  <rect x="202" y="132" width="14" height="22" rx="5" fill="#2A2A2C"/>
+  <!-- Action Button (LEFT side, orange - Ultra signature) -->
+  <rect x="4" y="96" width="14" height="28" rx="5" fill="#FF6B00"/>
+  <rect x="7" y="103" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+  <rect x="7" y="109" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+  <rect x="7" y="115" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+</svg></div>
+      <div class="badge anim-fade-up delay-4" data-key="s2-badge">49mm Aerospace-Grade Titanium</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;padding-left:20px">
+      <div class="stat-label anim-slide-right delay-1" data-key="s2-stat1">&#9646; 100% Recycled Titanium</div><!-- EDIT: stat 1 -->
+      <div class="stat-label anim-slide-right delay-2" data-key="s2-stat2">&#9646; 50% Less Raw Material</div><!-- EDIT: stat 2 -->
+      <div class="stat-label anim-slide-right delay-3" data-key="s2-stat3">&#9646; 400+ Metric Tons Saved</div><!-- EDIT: stat 3 -->
+      <div class="stat-label anim-slide-right delay-4" data-key="s2-stat4">&#9646; 3D Printed &mdash; A First</div><!-- EDIT: stat 4 -->
+      <p class="spec-item anim-fade-up delay-5" data-key="s2-desc" style="margin-top:12px;line-height:1.6">
+        The first Apple Watch with a 3D-printed titanium case.<br>
+        <span>Same strength. Half the material waste.</span>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 3: Display -->
+<div class="slide" id="slide-3">
+  <h1 class="headline anim-fade-up" data-key="s3-headline">Brilliant. In Every Light.</h1><!-- EDIT: display headline -->
+  <div style="margin:24px 0;animation:glowBrightness 3s ease-in-out infinite"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" width="220" height="280" style="overflow:visible">
+  <!-- OPTIONAL: Replace with real Apple Watch image -->
+  <!-- Band stubs -->
+  <rect x="72" y="0" width="76" height="42" rx="10" fill="#1A1A1A"/>
+  <rect x="72" y="238" width="76" height="42" rx="10" fill="#1A1A1A"/>
+  <!-- Band texture lines -->
+  <line x1="80" y1="8" x2="164" y2="8" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="16" x2="164" y2="16" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="24" x2="164" y2="24" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="32" x2="164" y2="32" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="250" x2="164" y2="250" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="258" x2="164" y2="258" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="266" x2="164" y2="266" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="274" x2="164" y2="274" stroke="#252525" stroke-width="1"/>
+  <!-- Titanium case gradient -->
+  <defs>
+    <linearGradient id="caseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4A4A4C"/>
+      <stop offset="40%" stop-color="#3A3A3C"/>
+      <stop offset="100%" stop-color="#1C1C1E"/>
+    </linearGradient>
+    <linearGradient id="displayGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0A0A0A"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+  </defs>
+  <rect x="16" y="38" width="188" height="204" rx="28" fill="url(#caseGrad)"/>
+  <!-- Case edge highlight -->
+  <rect x="16" y="38" width="188" height="204" rx="28" fill="none" stroke="#5A5A5C" stroke-width="1.5"/>
+  <!-- Display bezel -->
+  <rect x="28" y="50" width="164" height="180" rx="20" fill="#0A0A0A"/>
+  <!-- Display screen -->
+  <rect x="34" y="56" width="152" height="168" rx="16" fill="url(#displayGrad)"/>
+  <!-- Time display -->
+  <text x="110" y="116" text-anchor="middle" fill="white" font-family="-apple-system,Helvetica" font-size="38" font-weight="300" letter-spacing="-2">9:41</text>
+  <!-- Date -->
+  <text x="110" y="136" text-anchor="middle" fill="#86868B" font-family="-apple-system,Helvetica" font-size="11">FRI 14</text>
+  <!-- Complications row -->
+  <circle cx="72" cy="158" r="14" fill="#1C1C1E"/>
+  <text x="72" y="162" text-anchor="middle" fill="#30D158" font-size="10" font-family="-apple-system,Helvetica">HR</text>
+  <circle cx="110" cy="158" r="14" fill="#1C1C1E"/>
+  <text x="110" y="162" text-anchor="middle" fill="#FF6B00" font-size="10" font-family="-apple-system,Helvetica">UV</text>
+  <circle cx="148" cy="158" r="14" fill="#1C1C1E"/>
+  <text x="148" y="162" text-anchor="middle" fill="#5AC8FA" font-size="10" font-family="-apple-system,Helvetica">°C</text>
+  <!-- Bottom complications -->
+  <rect x="50" y="182" width="120" height="26" rx="8" fill="#1C1C1E"/>
+  <text x="110" y="199" text-anchor="middle" fill="#FF6B00" font-size="10" font-family="-apple-system,Helvetica" font-weight="600">WORKOUT BUDDY</text>
+  <!-- Orange bezel markers -->
+  <rect x="106" y="57" width="8" height="4" rx="2" fill="#FF6B00"/>
+  <rect x="106" y="219" width="8" height="4" rx="2" fill="#FF6B00"/>
+  <rect x="35" y="136" width="4" height="8" rx="2" fill="#FF6B00"/>
+  <rect x="181" y="136" width="4" height="8" rx="2" fill="#FF6B00"/>
+  <!-- Digital Crown (right side) -->
+  <rect x="202" y="88" width="14" height="36" rx="6" fill="#3A3A3C"/>
+  <rect x="202" y="88" width="14" height="36" rx="6" fill="none" stroke="#FF6B00" stroke-width="2"/>
+  <rect x="204" y="92" width="10" height="4" rx="2" fill="#4A4A4C"/>
+  <rect x="204" y="100" width="10" height="4" rx="2" fill="#4A4A4C"/>
+  <rect x="204" y="108" width="10" height="4" rx="2" fill="#4A4A4C"/>
+  <!-- Side Button (right, below crown) -->
+  <rect x="202" y="132" width="14" height="22" rx="5" fill="#2A2A2C"/>
+  <!-- Action Button (LEFT side, orange - Ultra signature) -->
+  <rect x="4" y="96" width="14" height="28" rx="5" fill="#FF6B00"/>
+  <rect x="7" y="103" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+  <rect x="7" y="109" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+  <rect x="7" y="115" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+</svg></div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px 40px;max-width:700px;margin-top:16px">
+    <div class="spec-item anim-fade-up delay-1"><span data-key="s3-spec1">3,000 nits</span> peak brightness</div><!-- EDIT -->
+    <div class="spec-item anim-fade-up delay-2"><span data-key="s3-spec2">422&times;514 px &middot; 326 ppi</span></div><!-- EDIT -->
+    <div class="spec-item anim-fade-up delay-3"><span data-key="s3-spec3">LTPO3 Always-On OLED</span></div><!-- EDIT -->
+    <div class="spec-item anim-fade-up delay-4"><span data-key="s3-spec4">Flat Sapphire Crystal</span></div><!-- EDIT -->
+  </div>
+  <p class="stat-label anim-fade-up delay-5" style="margin-top:20px;font-size:15px" data-key="s3-sustainability">
+    &#9675; 1Hz refresh in Always-On = 90% energy savings
+  </p><!-- EDIT: sustainability note -->
+</div>
+
+<!-- SLIDE 4: Chip -->
+<div class="slide" id="slide-4">
+  <h1 class="headline anim-fade-up" data-key="s4-headline">Small Chip. Massive Capability.</h1><!-- EDIT: chip headline -->
+  <div class="two-col" style="max-width:1000px;margin-top:30px">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:24px;position:relative">
+      <div style="opacity:0.18;position:absolute;top:-10px;transform:scale(0.7)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" width="220" height="280" style="overflow:visible">
+  <!-- OPTIONAL: Replace with real Apple Watch image -->
+  <!-- Band stubs -->
+  <rect x="72" y="0" width="76" height="42" rx="10" fill="#1A1A1A"/>
+  <rect x="72" y="238" width="76" height="42" rx="10" fill="#1A1A1A"/>
+  <!-- Band texture lines -->
+  <line x1="80" y1="8" x2="164" y2="8" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="16" x2="164" y2="16" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="24" x2="164" y2="24" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="32" x2="164" y2="32" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="250" x2="164" y2="250" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="258" x2="164" y2="258" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="266" x2="164" y2="266" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="274" x2="164" y2="274" stroke="#252525" stroke-width="1"/>
+  <!-- Titanium case gradient -->
+  <defs>
+    <linearGradient id="caseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4A4A4C"/>
+      <stop offset="40%" stop-color="#3A3A3C"/>
+      <stop offset="100%" stop-color="#1C1C1E"/>
+    </linearGradient>
+    <linearGradient id="displayGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0A0A0A"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+  </defs>
+  <rect x="16" y="38" width="188" height="204" rx="28" fill="url(#caseGrad)"/>
+  <!-- Case edge highlight -->
+  <rect x="16" y="38" width="188" height="204" rx="28" fill="none" stroke="#5A5A5C" stroke-width="1.5"/>
+  <!-- Display bezel -->
+  <rect x="28" y="50" width="164" height="180" rx="20" fill="#0A0A0A"/>
+  <!-- Display screen -->
+  <rect x="34" y="56" width="152" height="168" rx="16" fill="url(#displayGrad)"/>
+  <!-- Time display -->
+  <text x="110" y="116" text-anchor="middle" fill="white" font-family="-apple-system,Helvetica" font-size="38" font-weight="300" letter-spacing="-2">9:41</text>
+  <!-- Date -->
+  <text x="110" y="136" text-anchor="middle" fill="#86868B" font-family="-apple-system,Helvetica" font-size="11">FRI 14</text>
+  <!-- Complications row -->
+  <circle cx="72" cy="158" r="14" fill="#1C1C1E"/>
+  <text x="72" y="162" text-anchor="middle" fill="#30D158" font-size="10" font-family="-apple-system,Helvetica">HR</text>
+  <circle cx="110" cy="158" r="14" fill="#1C1C1E"/>
+  <text x="110" y="162" text-anchor="middle" fill="#FF6B00" font-size="10" font-family="-apple-system,Helvetica">UV</text>
+  <circle cx="148" cy="158" r="14" fill="#1C1C1E"/>
+  <text x="148" y="162" text-anchor="middle" fill="#5AC8FA" font-size="10" font-family="-apple-system,Helvetica">°C</text>
+  <!-- Bottom complications -->
+  <rect x="50" y="182" width="120" height="26" rx="8" fill="#1C1C1E"/>
+  <text x="110" y="199" text-anchor="middle" fill="#FF6B00" font-size="10" font-family="-apple-system,Helvetica" font-weight="600">WORKOUT BUDDY</text>
+  <!-- Orange bezel markers -->
+  <rect x="106" y="57" width="8" height="4" rx="2" fill="#FF6B00"/>
+  <rect x="106" y="219" width="8" height="4" rx="2" fill="#FF6B00"/>
+  <rect x="35" y="136" width="4" height="8" rx="2" fill="#FF6B00"/>
+  <rect x="181" y="136" width="4" height="8" rx="2" fill="#FF6B00"/>
+  <!-- Digital Crown (right side) -->
+  <rect x="202" y="88" width="14" height="36" rx="6" fill="#3A3A3C"/>
+  <rect x="202" y="88" width="14" height="36" rx="6" fill="none" stroke="#FF6B00" stroke-width="2"/>
+  <rect x="204" y="92" width="10" height="4" rx="2" fill="#4A4A4C"/>
+  <rect x="204" y="100" width="10" height="4" rx="2" fill="#4A4A4C"/>
+  <rect x="204" y="108" width="10" height="4" rx="2" fill="#4A4A4C"/>
+  <!-- Side Button (right, below crown) -->
+  <rect x="202" y="132" width="14" height="22" rx="5" fill="#2A2A2C"/>
+  <!-- Action Button (LEFT side, orange - Ultra signature) -->
+  <rect x="4" y="96" width="14" height="28" rx="5" fill="#FF6B00"/>
+  <rect x="7" y="103" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+  <rect x="7" y="109" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+  <rect x="7" y="115" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+</svg></div>
+      <div id="chip-hero" style="animation:chipFlyIn 900ms cubic-bezier(0.34,1.56,0.64,1) both 300ms;position:relative;z-index:2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <!-- S10 Chip -->
+  <defs>
+    <linearGradient id="chipGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2C2C2E"/>
+      <stop offset="100%" stop-color="#1C1C1E"/>
+    </linearGradient>
+  </defs>
+  <!-- Chip body -->
+  <rect x="20" y="20" width="80" height="80" rx="8" fill="url(#chipGrad)"/>
+  <rect x="20" y="20" width="80" height="80" rx="8" fill="none" stroke="#5A5A5C" stroke-width="1"/>
+  <!-- Inner die -->
+  <rect x="30" y="30" width="60" height="60" rx="4" fill="#141414"/>
+  <!-- Circuit traces -->
+  <line x1="35" y1="42" x2="85" y2="42" stroke="#2A2A2C" stroke-width="1"/>
+  <line x1="35" y1="52" x2="85" y2="52" stroke="#2A2A2C" stroke-width="1"/>
+  <line x1="35" y1="78" x2="85" y2="78" stroke="#2A2A2C" stroke-width="1"/>
+  <line x1="42" y1="35" x2="42" y2="85" stroke="#2A2A2C" stroke-width="1"/>
+  <line x1="78" y1="35" x2="78" y2="85" stroke="#2A2A2C" stroke-width="1"/>
+  <!-- S10 text -->
+  <text x="60" y="65" text-anchor="middle" fill="white" font-family="-apple-system,Helvetica" font-size="20" font-weight="700" letter-spacing="-1">S10</text>
+  <!-- Gold contact pads - top -->
+  <rect x="26" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
+  <rect x="40" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
+  <rect x="54" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
+  <rect x="68" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
+  <rect x="82" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
+  <!-- Gold contact pads - bottom -->
+  <rect x="26" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
+  <rect x="40" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
+  <rect x="54" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
+  <rect x="68" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
+  <rect x="82" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
+  <!-- Gold contact pads - left -->
+  <rect x="12" y="26" width="7" height="8" rx="2" fill="#C9A227"/>
+  <rect x="12" y="40" width="7" height="8" rx="2" fill="#C9A227"/>
+  <rect x="12" y="54" width="7" height="8" rx="2" fill="#C9A227"/>
+  <rect x="12" y="68" width="7" height="8" rx="2" fill="#C9A227"/>
+  <rect x="12" y="82" width="7" height="8" rx="2" fill="#C9A227"/>
+  <!-- Gold contact pads - right -->
+  <rect x="101" y="26" width="7" height="8" rx="2" fill="#C9A227"/>
+  <rect x="101" y="40" width="7" height="8" rx="2" fill="#C9A227"/>
+  <rect x="101" y="54" width="7" height="8" rx="2" fill="#C9A227"/>
+  <rect x="101" y="68" width="7" height="8" rx="2" fill="#C9A227"/>
+  <rect x="101" y="82" width="7" height="8" rx="2" fill="#C9A227"/>
+</svg></div>
+      <div style="background:#1C1C1E;border:1px solid #FF6B00;border-radius:12px;padding:10px 20px;text-align:center;position:relative;z-index:2">
+        <span style="color:#FF6B00;font-weight:700;font-size:18px">S10 SiP</span>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div class="spec-item anim-slide-right delay-1"><span data-key="s4-spec1">64-bit Dual-Core</span> CPU</div><!-- EDIT -->
+      <div class="spec-item anim-slide-right delay-2"><span data-key="s4-spec2">4-Core Neural Engine</span></div><!-- EDIT -->
+      <div class="spec-item anim-slide-right delay-3"><span data-key="s4-spec3">5.6B Transistors</span></div><!-- EDIT -->
+      <div class="spec-item anim-slide-right delay-4"><span data-key="s4-spec4">On-device AI</span> processing</div><!-- EDIT -->
+      <p class="spec-item anim-fade-up delay-5" style="line-height:1.6" data-key="s4-desc">
+        The S10 is our most efficient chip ever &mdash; enabling longer battery life and powerful health algorithms without compromising performance.
+      </p><!-- EDIT: chip description -->
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5: Health -->
+<div class="slide" id="slide-5">
+  <h1 class="headline anim-fade-up" data-key="s5-headline">Your Health. Elevated.</h1><!-- EDIT: health headline -->
+  <div class="two-col" style="max-width:1000px;margin-top:24px">
+    <div style="display:flex;justify-content:center;align-items:center"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" width="200" height="254">
+  <!-- OPTIONAL: Replace with real Apple Watch back image -->
+  <!-- Band stubs -->
+  <rect x="72" y="0" width="76" height="42" rx="10" fill="#1A1A1A"/>
+  <rect x="72" y="238" width="76" height="42" rx="10" fill="#1A1A1A"/>
+  <defs>
+    <linearGradient id="caseGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4A4A4C"/>
+      <stop offset="100%" stop-color="#1C1C1E"/>
+    </linearGradient>
+    <radialGradient id="sensorGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2A2A2C"/>
+      <stop offset="100%" stop-color="#1C1C1E"/>
+    </radialGradient>
+  </defs>
+  <!-- Case back -->
+  <rect x="16" y="38" width="188" height="204" rx="28" fill="url(#caseGrad2)"/>
+  <rect x="16" y="38" width="188" height="204" rx="28" fill="none" stroke="#5A5A5C" stroke-width="1.5"/>
+  <!-- Sensor housing circle -->
+  <circle cx="110" cy="140" r="72" fill="#0A0A0A"/>
+  <circle cx="110" cy="140" r="72" fill="none" stroke="#3A3A3C" stroke-width="2"/>
+  <!-- Sensor cluster -->
+  <circle cx="110" cy="140" r="56" fill="url(#sensorGrad)"/>
+  <!-- Electrical heart sensor ring -->
+  <circle cx="110" cy="140" r="44" fill="none" stroke="#5A5A5C" stroke-width="3" stroke-dasharray="8 4"/>
+  <!-- Large sensor window -->
+  <ellipse cx="110" cy="130" rx="28" ry="22" fill="#0D0D0D"/>
+  <!-- Green LED dots for optical heart rate -->
+  <circle cx="98" cy="128" r="4" fill="#30D158" opacity="0.9">
+    <animate attributeName="opacity" values="0.4;1;0.4" dur="1.2s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="3;5;3" dur="1.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="110" cy="118" r="4" fill="#30D158" opacity="0.9">
+    <animate attributeName="opacity" values="0.4;1;0.4" dur="1.2s" begin="0.2s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="3;5;3" dur="1.2s" begin="0.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="122" cy="128" r="4" fill="#30D158" opacity="0.9">
+    <animate attributeName="opacity" values="0.4;1;0.4" dur="1.2s" begin="0.4s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="3;5;3" dur="1.2s" begin="0.4s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="110" cy="138" r="4" fill="#30D158" opacity="0.9">
+    <animate attributeName="opacity" values="0.4;1;0.4" dur="1.2s" begin="0.6s" repeatCount="indefinite"/>
+    <animate attributeName="r" values="3;5;3" dur="1.2s" begin="0.6s" repeatCount="indefinite"/>
+  </circle>
+  <!-- Temperature sensor -->
+  <circle cx="110" cy="158" r="6" fill="#FF9F0A" opacity="0.8"/>
+  <text x="110" y="162" text-anchor="middle" fill="#000" font-size="7" font-weight="bold">T</text>
+  <!-- ECG electrodes -->
+  <rect x="72" y="190" width="76" height="22" rx="8" fill="#1C1C1E"/>
+  <text x="110" y="205" text-anchor="middle" fill="#5AC8FA" font-size="10" font-family="-apple-system,Helvetica">ECG ELECTRODES</text>
+  <!-- Apple logo on back -->
+  <text x="110" y="98" text-anchor="middle" fill="#3A3A3C" font-size="18"> </text>
+</svg></div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="anim-slide-right delay-1" style="font-size:clamp(16px,1.8vw,22px);font-weight:700;color:#FF6B00;border:1px solid #FF6B00;border-radius:10px;padding:10px 16px">
+        <span data-key="s5-feat1">&#9670; Hypertension Notifications</span>
+        <span style="font-size:11px;background:#FF6B00;color:#000;border-radius:4px;padding:2px 6px;margin-left:8px;font-weight:700">NEW</span>
+      </div><!-- EDIT: hypertension feature -->
+      <div class="spec-item anim-slide-right delay-2" data-key="s5-feat2">&#10003; ECG App</div><!-- EDIT -->
+      <div class="spec-item anim-slide-right delay-3" data-key="s5-feat3">&#10003; Blood Oxygen</div><!-- EDIT -->
+      <div class="spec-item anim-slide-right delay-4" data-key="s5-feat4">&#10003; Sleep Apnea Detection</div><!-- EDIT -->
+      <div class="spec-item anim-slide-right delay-5" data-key="s5-feat5">&#10003; Temperature Sensing</div><!-- EDIT -->
+      <div class="spec-item anim-slide-right delay-6" data-key="s5-feat6">&#10003; Fall &amp; Crash Detection</div><!-- EDIT -->
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6: Connectivity -->
+<div class="slide" id="slide-6">
+  <h1 class="headline anim-fade-up" data-key="s6-headline">Always Connected. Anywhere.</h1><!-- EDIT: connectivity headline -->
+  <div style="position:relative;display:inline-flex;align-items:center;justify-content:center;margin:24px 0">
+    <div class="signal-ring"></div>
+    <div class="signal-ring"></div>
+    <div class="signal-ring"></div>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" width="220" height="280" style="overflow:visible">
+  <!-- OPTIONAL: Replace with real Apple Watch image -->
+  <!-- Band stubs -->
+  <rect x="72" y="0" width="76" height="42" rx="10" fill="#1A1A1A"/>
+  <rect x="72" y="238" width="76" height="42" rx="10" fill="#1A1A1A"/>
+  <!-- Band texture lines -->
+  <line x1="80" y1="8" x2="164" y2="8" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="16" x2="164" y2="16" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="24" x2="164" y2="24" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="32" x2="164" y2="32" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="250" x2="164" y2="250" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="258" x2="164" y2="258" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="266" x2="164" y2="266" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="274" x2="164" y2="274" stroke="#252525" stroke-width="1"/>
+  <!-- Titanium case gradient -->
+  <defs>
+    <linearGradient id="caseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4A4A4C"/>
+      <stop offset="40%" stop-color="#3A3A3C"/>
+      <stop offset="100%" stop-color="#1C1C1E"/>
+    </linearGradient>
+    <linearGradient id="displayGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0A0A0A"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+  </defs>
+  <rect x="16" y="38" width="188" height="204" rx="28" fill="url(#caseGrad)"/>
+  <!-- Case edge highlight -->
+  <rect x="16" y="38" width="188" height="204" rx="28" fill="none" stroke="#5A5A5C" stroke-width="1.5"/>
+  <!-- Display bezel -->
+  <rect x="28" y="50" width="164" height="180" rx="20" fill="#0A0A0A"/>
+  <!-- Display screen -->
+  <rect x="34" y="56" width="152" height="168" rx="16" fill="url(#displayGrad)"/>
+  <!-- Time display -->
+  <text x="110" y="116" text-anchor="middle" fill="white" font-family="-apple-system,Helvetica" font-size="38" font-weight="300" letter-spacing="-2">9:41</text>
+  <!-- Date -->
+  <text x="110" y="136" text-anchor="middle" fill="#86868B" font-family="-apple-system,Helvetica" font-size="11">FRI 14</text>
+  <!-- Complications row -->
+  <circle cx="72" cy="158" r="14" fill="#1C1C1E"/>
+  <text x="72" y="162" text-anchor="middle" fill="#30D158" font-size="10" font-family="-apple-system,Helvetica">HR</text>
+  <circle cx="110" cy="158" r="14" fill="#1C1C1E"/>
+  <text x="110" y="162" text-anchor="middle" fill="#FF6B00" font-size="10" font-family="-apple-system,Helvetica">UV</text>
+  <circle cx="148" cy="158" r="14" fill="#1C1C1E"/>
+  <text x="148" y="162" text-anchor="middle" fill="#5AC8FA" font-size="10" font-family="-apple-system,Helvetica">°C</text>
+  <!-- Bottom complications -->
+  <rect x="50" y="182" width="120" height="26" rx="8" fill="#1C1C1E"/>
+  <text x="110" y="199" text-anchor="middle" fill="#FF6B00" font-size="10" font-family="-apple-system,Helvetica" font-weight="600">WORKOUT BUDDY</text>
+  <!-- Orange bezel markers -->
+  <rect x="106" y="57" width="8" height="4" rx="2" fill="#FF6B00"/>
+  <rect x="106" y="219" width="8" height="4" rx="2" fill="#FF6B00"/>
+  <rect x="35" y="136" width="4" height="8" rx="2" fill="#FF6B00"/>
+  <rect x="181" y="136" width="4" height="8" rx="2" fill="#FF6B00"/>
+  <!-- Digital Crown (right side) -->
+  <rect x="202" y="88" width="14" height="36" rx="6" fill="#3A3A3C"/>
+  <rect x="202" y="88" width="14" height="36" rx="6" fill="none" stroke="#FF6B00" stroke-width="2"/>
+  <rect x="204" y="92" width="10" height="4" rx="2" fill="#4A4A4C"/>
+  <rect x="204" y="100" width="10" height="4" rx="2" fill="#4A4A4C"/>
+  <rect x="204" y="108" width="10" height="4" rx="2" fill="#4A4A4C"/>
+  <!-- Side Button (right, below crown) -->
+  <rect x="202" y="132" width="14" height="22" rx="5" fill="#2A2A2C"/>
+  <!-- Action Button (LEFT side, orange - Ultra signature) -->
+  <rect x="4" y="96" width="14" height="28" rx="5" fill="#FF6B00"/>
+  <rect x="7" y="103" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+  <rect x="7" y="109" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+  <rect x="7" y="115" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+</svg>
+  </div>
+  <div class="feature-grid" style="max-width:700px">
+    <div class="feature-item anim-fade-up delay-1"><span data-key="s6-feat1">5G Cellular</span></div><!-- EDIT -->
+    <div class="feature-item anim-fade-up delay-2"><span data-key="s6-feat2">Satellite SOS</span></div><!-- EDIT -->
+    <div class="feature-item anim-fade-up delay-3"><span data-key="s6-feat3">GPS L1+L5</span></div><!-- EDIT -->
+    <div class="feature-item anim-fade-up delay-4"><span data-key="s6-feat4">Bluetooth 5.3</span></div><!-- EDIT -->
+    <div class="feature-item anim-fade-up delay-5"><span data-key="s6-feat5">Ultra Wideband</span></div><!-- EDIT -->
+    <div class="feature-item anim-fade-up delay-6"><span data-key="s6-feat6">Emergency Calling</span></div><!-- EDIT -->
+  </div>
+</div>
+
+<!-- SLIDE 7: Workout -->
+<div class="slide" id="slide-7">
+  <h1 class="headline anim-fade-up" data-key="s7-headline">Train Smarter. Go Further.</h1><!-- EDIT: workout headline -->
+  <div class="two-col" style="max-width:1000px;margin-top:24px">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:20px">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" width="220" height="280" style="overflow:visible">
+  <!-- OPTIONAL: Replace with real Apple Watch image -->
+  <!-- Band stubs -->
+  <rect x="72" y="0" width="76" height="42" rx="10" fill="#1A1A1A"/>
+  <rect x="72" y="238" width="76" height="42" rx="10" fill="#1A1A1A"/>
+  <!-- Band texture lines -->
+  <line x1="80" y1="8" x2="164" y2="8" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="16" x2="164" y2="16" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="24" x2="164" y2="24" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="32" x2="164" y2="32" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="250" x2="164" y2="250" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="258" x2="164" y2="258" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="266" x2="164" y2="266" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="274" x2="164" y2="274" stroke="#252525" stroke-width="1"/>
+  <!-- Titanium case gradient -->
+  <defs>
+    <linearGradient id="caseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4A4A4C"/>
+      <stop offset="40%" stop-color="#3A3A3C"/>
+      <stop offset="100%" stop-color="#1C1C1E"/>
+    </linearGradient>
+    <linearGradient id="displayGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0A0A0A"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+  </defs>
+  <rect x="16" y="38" width="188" height="204" rx="28" fill="url(#caseGrad)"/>
+  <!-- Case edge highlight -->
+  <rect x="16" y="38" width="188" height="204" rx="28" fill="none" stroke="#5A5A5C" stroke-width="1.5"/>
+  <!-- Display bezel -->
+  <rect x="28" y="50" width="164" height="180" rx="20" fill="#0A0A0A"/>
+  <!-- Display screen -->
+  <rect x="34" y="56" width="152" height="168" rx="16" fill="url(#displayGrad)"/>
+  <!-- Time display -->
+  <text x="110" y="116" text-anchor="middle" fill="white" font-family="-apple-system,Helvetica" font-size="38" font-weight="300" letter-spacing="-2">9:41</text>
+  <!-- Date -->
+  <text x="110" y="136" text-anchor="middle" fill="#86868B" font-family="-apple-system,Helvetica" font-size="11">FRI 14</text>
+  <!-- Complications row -->
+  <circle cx="72" cy="158" r="14" fill="#1C1C1E"/>
+  <text x="72" y="162" text-anchor="middle" fill="#30D158" font-size="10" font-family="-apple-system,Helvetica">HR</text>
+  <circle cx="110" cy="158" r="14" fill="#1C1C1E"/>
+  <text x="110" y="162" text-anchor="middle" fill="#FF6B00" font-size="10" font-family="-apple-system,Helvetica">UV</text>
+  <circle cx="148" cy="158" r="14" fill="#1C1C1E"/>
+  <text x="148" y="162" text-anchor="middle" fill="#5AC8FA" font-size="10" font-family="-apple-system,Helvetica">°C</text>
+  <!-- Bottom complications -->
+  <rect x="50" y="182" width="120" height="26" rx="8" fill="#1C1C1E"/>
+  <text x="110" y="199" text-anchor="middle" fill="#FF6B00" font-size="10" font-family="-apple-system,Helvetica" font-weight="600">WORKOUT BUDDY</text>
+  <!-- Orange bezel markers -->
+  <rect x="106" y="57" width="8" height="4" rx="2" fill="#FF6B00"/>
+  <rect x="106" y="219" width="8" height="4" rx="2" fill="#FF6B00"/>
+  <rect x="35" y="136" width="4" height="8" rx="2" fill="#FF6B00"/>
+  <rect x="181" y="136" width="4" height="8" rx="2" fill="#FF6B00"/>
+  <!-- Digital Crown (right side) -->
+  <rect x="202" y="88" width="14" height="36" rx="6" fill="#3A3A3C"/>
+  <rect x="202" y="88" width="14" height="36" rx="6" fill="none" stroke="#FF6B00" stroke-width="2"/>
+  <rect x="204" y="92" width="10" height="4" rx="2" fill="#4A4A4C"/>
+  <rect x="204" y="100" width="10" height="4" rx="2" fill="#4A4A4C"/>
+  <rect x="204" y="108" width="10" height="4" rx="2" fill="#4A4A4C"/>
+  <!-- Side Button (right, below crown) -->
+  <rect x="202" y="132" width="14" height="22" rx="5" fill="#2A2A2C"/>
+  <!-- Action Button (LEFT side, orange - Ultra signature) -->
+  <rect x="4" y="96" width="14" height="28" rx="5" fill="#FF6B00"/>
+  <rect x="7" y="103" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+  <rect x="7" y="109" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+  <rect x="7" y="115" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+</svg>
+      <div class="battery-container anim-fade-up delay-3">
+        <div class="battery-track"><div id="battery-fill" class="battery-fill"></div></div>
+        <div class="battery-label" data-key="s7-battery-label">42 Hours Battery Life</div><!-- EDIT: battery label -->
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="spec-item anim-slide-right delay-1"><span data-key="s7-feat1">42-Hour Battery (72hr Low Power)</span></div><!-- EDIT -->
+      <div class="spec-item anim-slide-right delay-2"><span data-key="s7-feat2">Workout Buddy AI Coach</span></div><!-- EDIT -->
+      <div class="spec-item anim-slide-right delay-3"><span data-key="s7-feat3">Running Power &amp; Cadence</span></div><!-- EDIT -->
+      <div class="spec-item anim-slide-right delay-4"><span data-key="s7-feat4">WR100 &middot; 40m Dive Computer</span></div><!-- EDIT -->
+      <p class="stat-label anim-fade-up delay-5" style="margin-top:12px;font-size:14px" data-key="s7-sustainability">
+        &#9675; 42 hours = fewer charges = longer battery lifespan
+      </p><!-- EDIT: sustainability note -->
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 8: Durability -->
+<div class="slide" id="slide-8">
+  <h1 class="headline anim-fade-up" data-key="s8-headline">Built to Last. Designed to Endure.</h1><!-- EDIT: durability headline -->
+  <div style="position:relative;display:inline-flex;align-items:center;justify-content:center;margin:20px 0">
+    <div class="shield-ring"></div>
+    <div class="drop"></div>
+    <div class="drop"></div>
+    <div class="drop"></div>
+    <div class="drop"></div>
+    <div class="drop"></div>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" width="220" height="280" style="overflow:visible">
+  <!-- OPTIONAL: Replace with real Apple Watch image -->
+  <!-- Band stubs -->
+  <rect x="72" y="0" width="76" height="42" rx="10" fill="#1A1A1A"/>
+  <rect x="72" y="238" width="76" height="42" rx="10" fill="#1A1A1A"/>
+  <!-- Band texture lines -->
+  <line x1="80" y1="8" x2="164" y2="8" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="16" x2="164" y2="16" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="24" x2="164" y2="24" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="32" x2="164" y2="32" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="250" x2="164" y2="250" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="258" x2="164" y2="258" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="266" x2="164" y2="266" stroke="#252525" stroke-width="1"/>
+  <line x1="80" y1="274" x2="164" y2="274" stroke="#252525" stroke-width="1"/>
+  <!-- Titanium case gradient -->
+  <defs>
+    <linearGradient id="caseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4A4A4C"/>
+      <stop offset="40%" stop-color="#3A3A3C"/>
+      <stop offset="100%" stop-color="#1C1C1E"/>
+    </linearGradient>
+    <linearGradient id="displayGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0A0A0A"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+  </defs>
+  <rect x="16" y="38" width="188" height="204" rx="28" fill="url(#caseGrad)"/>
+  <!-- Case edge highlight -->
+  <rect x="16" y="38" width="188" height="204" rx="28" fill="none" stroke="#5A5A5C" stroke-width="1.5"/>
+  <!-- Display bezel -->
+  <rect x="28" y="50" width="164" height="180" rx="20" fill="#0A0A0A"/>
+  <!-- Display screen -->
+  <rect x="34" y="56" width="152" height="168" rx="16" fill="url(#displayGrad)"/>
+  <!-- Time display -->
+  <text x="110" y="116" text-anchor="middle" fill="white" font-family="-apple-system,Helvetica" font-size="38" font-weight="300" letter-spacing="-2">9:41</text>
+  <!-- Date -->
+  <text x="110" y="136" text-anchor="middle" fill="#86868B" font-family="-apple-system,Helvetica" font-size="11">FRI 14</text>
+  <!-- Complications row -->
+  <circle cx="72" cy="158" r="14" fill="#1C1C1E"/>
+  <text x="72" y="162" text-anchor="middle" fill="#30D158" font-size="10" font-family="-apple-system,Helvetica">HR</text>
+  <circle cx="110" cy="158" r="14" fill="#1C1C1E"/>
+  <text x="110" y="162" text-anchor="middle" fill="#FF6B00" font-size="10" font-family="-apple-system,Helvetica">UV</text>
+  <circle cx="148" cy="158" r="14" fill="#1C1C1E"/>
+  <text x="148" y="162" text-anchor="middle" fill="#5AC8FA" font-size="10" font-family="-apple-system,Helvetica">°C</text>
+  <!-- Bottom complications -->
+  <rect x="50" y="182" width="120" height="26" rx="8" fill="#1C1C1E"/>
+  <text x="110" y="199" text-anchor="middle" fill="#FF6B00" font-size="10" font-family="-apple-system,Helvetica" font-weight="600">WORKOUT BUDDY</text>
+  <!-- Orange bezel markers -->
+  <rect x="106" y="57" width="8" height="4" rx="2" fill="#FF6B00"/>
+  <rect x="106" y="219" width="8" height="4" rx="2" fill="#FF6B00"/>
+  <rect x="35" y="136" width="4" height="8" rx="2" fill="#FF6B00"/>
+  <rect x="181" y="136" width="4" height="8" rx="2" fill="#FF6B00"/>
+  <!-- Digital Crown (right side) -->
+  <rect x="202" y="88" width="14" height="36" rx="6" fill="#3A3A3C"/>
+  <rect x="202" y="88" width="14" height="36" rx="6" fill="none" stroke="#FF6B00" stroke-width="2"/>
+  <rect x="204" y="92" width="10" height="4" rx="2" fill="#4A4A4C"/>
+  <rect x="204" y="100" width="10" height="4" rx="2" fill="#4A4A4C"/>
+  <rect x="204" y="108" width="10" height="4" rx="2" fill="#4A4A4C"/>
+  <!-- Side Button (right, below crown) -->
+  <rect x="202" y="132" width="14" height="22" rx="5" fill="#2A2A2C"/>
+  <!-- Action Button (LEFT side, orange - Ultra signature) -->
+  <rect x="4" y="96" width="14" height="28" rx="5" fill="#FF6B00"/>
+  <rect x="7" y="103" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+  <rect x="7" y="109" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+  <rect x="7" y="115" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+</svg>
+  </div>
+  <div class="feature-grid" style="max-width:700px">
+    <div class="feature-item anim-fade-up delay-1"><span data-key="s8-spec1">WR100 Water Resistance</span></div><!-- EDIT -->
+    <div class="feature-item anim-fade-up delay-2"><span data-key="s8-spec2">IP6X Dust Resistance</span></div><!-- EDIT -->
+    <div class="feature-item anim-fade-up delay-3"><span data-key="s8-spec3">MIL-STD-810H Certified</span></div><!-- EDIT -->
+    <div class="feature-item anim-fade-up delay-4"><span data-key="s8-spec4">Sapphire Crystal Display</span></div><!-- EDIT -->
+    <div class="feature-item anim-fade-up delay-5" style="color:#30D158"><span class="green" data-key="s8-spec5">Designed to be Repairable</span></div><!-- EDIT: green sustainability -->
+  </div>
+</div>
+
+<!-- SLIDE 9: Sustainability Exploded View (SHOWSTOPPER) -->
+<div class="slide" id="slide-9">
+  <h1 class="headline anim-fade-up" data-key="s9-headline">Better for the Planet. By Design.</h1><!-- EDIT: sustainability headline -->
+  <div class="two-col" style="max-width:1100px;margin-top:20px;align-items:center">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+      <!-- EXPLODED WATCH VIEW -->
+      <div class="exploded-view" id="exploded-view">
+        <div class="explode-layer explode-layer-1" id="el-1">
+          SAPPHIRE CRYSTAL
+          <span class="layer-label" data-key="s9-label1">Scratch-resistant &middot; 100% recycled origin</span><!-- EDIT -->
+        </div>
+        <div class="explode-layer explode-layer-2" id="el-2">
+          OLED DISPLAY
+          <span class="layer-label" data-key="s9-label2">LTPO3 &middot; 1Hz Always-On</span><!-- EDIT -->
+        </div>
+        <div class="explode-layer explode-layer-3" id="el-3">
+          S10 CHIP
+          <span class="layer-label" data-key="s9-label3">5.6B transistors &middot; Most efficient ever</span><!-- EDIT -->
+        </div>
+        <div class="explode-layer explode-layer-4" id="el-4">
+          BATTERY
+          <span class="layer-label" data-key="s9-label4">100% recycled cobalt</span><!-- EDIT -->
+        </div>
+        <div class="explode-layer explode-layer-5" id="el-5">
+          SENSOR ARRAY
+          <span class="layer-label" data-key="s9-label5">Heart &middot; ECG &middot; Blood O2 &middot; Temp</span><!-- EDIT -->
+        </div>
+        <div class="explode-layer explode-layer-6" id="el-6">
+          TITANIUM CASE
+          <span class="layer-label" data-key="s9-label6">100% recycled titanium &middot; 3D printed</span><!-- EDIT -->
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div class="anim-slide-right delay-1">
+        <div class="stat-number" id="s9-n1">0%</div>
+        <div class="stat-desc" data-key="s9-stat1">Recycled Content Overall</div><!-- EDIT -->
+      </div>
+      <div class="anim-slide-right delay-2">
+        <div class="stat-number" id="s9-n2">0%</div>
+        <div class="stat-desc" data-key="s9-stat2">Recycled Titanium</div><!-- EDIT -->
+      </div>
+      <div class="anim-slide-right delay-3">
+        <div class="stat-number" id="s9-n3">0%</div>
+        <div class="stat-desc" data-key="s9-stat3">Recycled Cobalt in Battery</div><!-- EDIT -->
+      </div>
+      <div class="anim-slide-right delay-4">
+        <div class="stat-number" id="s9-n4">0%</div>
+        <div class="stat-desc" data-key="s9-stat4">Renewable Energy Manufacturing</div><!-- EDIT -->
+      </div>
+      <div class="anim-slide-right delay-5">
+        <div class="stat-number" id="s9-n5">0%</div>
+        <div class="stat-desc" data-key="s9-stat5">Fiber-Based Packaging</div><!-- EDIT -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 10: Apple 2030 -->
+<div class="slide" id="slide-10">
+  <h1 class="headline anim-fade-up" data-key="s10-headline">Apple 2030</h1><!-- EDIT: apple 2030 headline -->
+  <p class="subheadline anim-fade-up delay-1" data-key="s10-subheadline">Net zero emissions. Across everything.</p><!-- EDIT: subheadline -->
+  <div class="progress-container anim-fade-up delay-2">
+    <div class="progress-track">
+      <div id="progress-fill" class="progress-fill"></div>
+    </div>
+    <div class="progress-labels">
+      <span data-key="s10-year-start">2020</span>
+      <span style="color:#30D158;font-weight:600" data-key="s10-progress-label">60% Reduction</span><!-- EDIT -->
+      <span data-key="s10-year-end">2030</span>
+    </div>
+  </div>
+  <div class="three-col" style="max-width:900px;margin-top:20px">
+    <div class="pillar anim-fade-up delay-3">
+      <span class="pillar-icon">&#9883;&#65039;</span>
+      <div class="pillar-title" data-key="s10-pillar1-title">Materials</div><!-- EDIT -->
+      <div class="pillar-stat" data-key="s10-pillar1-stat">100% Recycled Titanium</div><!-- EDIT -->
+    </div>
+    <div class="pillar anim-fade-up delay-4">
+      <span class="pillar-icon">&#9889;</span>
+      <div class="pillar-title" data-key="s10-pillar2-title">Electricity</div><!-- EDIT -->
+      <div class="pillar-stat" data-key="s10-pillar2-stat">All Suppliers Renewable</div><!-- EDIT -->
+    </div>
+    <div class="pillar anim-fade-up delay-5">
+      <span class="pillar-icon">&#127758;</span>
+      <div class="pillar-title" data-key="s10-pillar3-title">Transportation</div><!-- EDIT -->
+      <div class="pillar-stat" data-key="s10-pillar3-stat">150K Acres Forest Restored</div><!-- EDIT -->
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px 40px;max-width:900px;margin-top:16px">
+    <div class="stat-label anim-fade-up delay-5" style="font-size:13px" data-key="s10-fact1">60% Reduction Since 2020</div><!-- EDIT -->
+    <div class="stat-label anim-fade-up delay-6" style="font-size:13px" data-key="s10-fact2">All Suppliers Renewable Energy</div><!-- EDIT -->
+    <div class="stat-label anim-fade-up delay-7" style="font-size:13px" data-key="s10-fact3">150K Acres Forest Restored</div><!-- EDIT -->
+  </div>
+</div>
+
+<!-- SLIDE 11: Why It Matters -->
+<div class="slide" id="slide-11">
+  <h1 class="headline anim-fade-up" data-key="s11-headline">Technology Should Protect What Matters.</h1><!-- EDIT: why it matters headline -->
+  <div class="three-col" style="max-width:1000px;margin-top:36px">
+    <div class="card anim-fade-up delay-2">
+      <span class="card-icon">&#127956;&#65039;</span>
+      <div class="card-title" data-key="s11-card1-title">Adventure</div><!-- EDIT -->
+      <div class="card-body" data-key="s11-card1-body">One device replaces many. Less waste. More capability.</div><!-- EDIT -->
+    </div>
+    <div class="card anim-fade-up delay-3">
+      <span class="card-icon">&#10084;&#65039;</span>
+      <div class="card-title" data-key="s11-card2-title">Health</div><!-- EDIT -->
+      <div class="card-body" data-key="s11-card2-body">A device worth keeping. Longer lifespan. Fewer replacements.</div><!-- EDIT -->
+    </div>
+    <div class="card anim-fade-up delay-4">
+      <span class="card-icon">&#127758;</span>
+      <div class="card-title" data-key="s11-card3-title">Planet</div><!-- EDIT -->
+      <div class="card-body" data-key="s11-card3-body">Recycled materials. Renewable energy. Zero waste manufacturing.</div><!-- EDIT -->
+    </div>
+  </div>
+  <div style="margin-top:30px;opacity:0.5;animation:watchFadeIn 1s ease both 800ms">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" width="100" height="127" style="opacity:0.6">
+      <rect x="72" y="0" width="76" height="42" rx="10" fill="#1A1A1A"/>
+      <rect x="72" y="238" width="76" height="42" rx="10" fill="#1A1A1A"/>
+      <defs><linearGradient id="cg11" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A4A4C"/><stop offset="100%" stop-color="#1C1C1E"/></linearGradient></defs>
+      <rect x="16" y="38" width="188" height="204" rx="28" fill="url(#cg11)"/>
+      <rect x="34" y="56" width="152" height="168" rx="16" fill="#000"/>
+      <text x="110" y="150" text-anchor="middle" fill="white" font-family="-apple-system" font-size="30" font-weight="300">9:41</text>
+      <rect x="202" y="88" width="14" height="36" rx="6" fill="#3A3A3C" stroke="#FF6B00" stroke-width="1.5"/>
+      <rect x="4" y="96" width="14" height="28" rx="5" fill="#FF6B00"/>
+    </svg>
+  </div>
+</div>
+
+<!-- SLIDE 12: Closing -->
+<div class="slide" id="slide-12">
+  <div style="animation:logoFade 1s ease both 200ms">
+    <span style="font-size:clamp(80px,12vw,140px);line-height:1;display:block;text-align:center" data-key="s12-logo"> </span>
+  </div>
+  <h1 style="font-size:clamp(48px,7vw,96px);font-weight:300;letter-spacing:-0.02em;margin-top:20px;animation:fadeUp 800ms ease both 400ms" data-key="s12-thankyou">Thank You</h1><!-- EDIT: thank you text -->
+  <p style="font-size:clamp(20px,2.5vw,32px);color:#86868B;margin-top:12px;animation:fadeUp 800ms ease both 600ms" data-key="s12-questions">Questions?</p><!-- EDIT: questions text -->
+  <p style="font-size:clamp(14px,1.5vw,18px);color:#3A3A3C;margin-top:32px;letter-spacing:0.05em;animation:fadeUp 800ms ease both 800ms" data-key="s12-tagline">Apple Watch Ultra 3 &mdash; Adventure Responsibly.</p><!-- EDIT: closing tagline -->
+  <div style="margin-top:30px;animation:watchRotate 12s ease-in-out infinite,watchFadeIn 1s ease both 1000ms">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" width="130" height="165">
+      <rect x="72" y="0" width="76" height="42" rx="10" fill="#1A1A1A"/>
+      <rect x="72" y="238" width="76" height="42" rx="10" fill="#1A1A1A"/>
+      <defs><linearGradient id="cg12" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A4A4C"/><stop offset="100%" stop-color="#1C1C1E"/></linearGradient></defs>
+      <rect x="16" y="38" width="188" height="204" rx="28" fill="url(#cg12)"/>
+      <rect x="16" y="38" width="188" height="204" rx="28" fill="none" stroke="#5A5A5C" stroke-width="1.5"/>
+      <rect x="34" y="56" width="152" height="168" rx="16" fill="#000"/>
+      <text x="110" y="150" text-anchor="middle" fill="white" font-family="-apple-system" font-size="30" font-weight="300">9:41</text>
+      <rect x="106" y="57" width="8" height="4" rx="2" fill="#FF6B00"/>
+      <rect x="106" y="219" width="8" height="4" rx="2" fill="#FF6B00"/>
+      <rect x="202" y="88" width="14" height="36" rx="6" fill="#3A3A3C" stroke="#FF6B00" stroke-width="1.5"/>
+      <rect x="4" y="96" width="14" height="28" rx="5" fill="#FF6B00"/>
+    </svg>
+  </div>
+</div>
+
+</div><!-- end #presentation -->
