@@ -314,7 +314,7 @@ body.edit-mode #reset-btn{display:block}
 <div id="presentation">
 
 <!-- SLIDE 1: Title -->
-<div class="slide" id="slide-1">
+<div class="slide active" id="slide-1">
   <div class="anim-fade-up" style="animation:logoFade 800ms ease both 100ms">
     <span class="apple-logo" data-key="s1-logo"> </span>
   </div>
@@ -1175,3 +1175,113 @@ body.edit-mode #reset-btn{display:block}
 </div>
 
 </div><!-- end #presentation -->
+
+<script>
+(function(){
+  const TOTAL = 12;
+  let current = 1;
+  let editMode = false;
+
+  const slides = () => document.querySelectorAll('.slide');
+  const counter = document.getElementById('slide-counter');
+  const thumbStrip = document.getElementById('thumbnail-strip');
+  const editBanner = document.getElementById('edit-banner');
+
+  // Build thumbnail strip
+  for(let i=1;i<=TOTAL;i++){
+    const t=document.createElement('div');
+    t.className='thumb'+(i===1?' active-thumb':'');
+    t.textContent=i;
+    t.onclick=()=>goTo(i);
+    thumbStrip.appendChild(t);
+  }
+
+  function goTo(n){
+    if(n<1||n>TOTAL)return;
+    document.querySelector('#slide-'+current).classList.remove('active');
+    document.querySelectorAll('.thumb')[current-1].classList.remove('active-thumb');
+    current=n;
+    document.querySelector('#slide-'+current).classList.add('active');
+    document.querySelectorAll('.thumb')[current-1].classList.add('active-thumb');
+    counter.textContent=current+' / '+TOTAL;
+    triggerSlideAnimations(current);
+  }
+
+  function next(){goTo(current+1);}
+  function prev(){goTo(current-1);}
+  window.next=next;
+  window.prev=prev;
+
+  // Keyboard navigation
+  document.addEventListener('keydown',function(e){
+    if(editMode && document.activeElement && document.activeElement.getAttribute('data-key')) return;
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' ') next();
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp') prev();
+    if(e.key==='e'||e.key==='E') toggleEdit();
+  });
+
+  // Edit mode
+  function toggleEdit(){
+    editMode=!editMode;
+    document.body.classList.toggle('edit-mode',editMode);
+    editBanner.classList.toggle('show',editMode);
+    if(editMode){
+      document.querySelectorAll('[data-key]').forEach(el=>{
+        el.contentEditable='true';
+        const saved=localStorage.getItem('aw_'+el.dataset.key);
+        if(saved) el.innerHTML=saved;
+      });
+    } else {
+      document.querySelectorAll('[data-key]').forEach(el=>{
+        localStorage.setItem('aw_'+el.dataset.key,el.innerHTML);
+        el.contentEditable='false';
+      });
+    }
+  }
+  window.toggleEdit=toggleEdit;
+
+  // Reset button
+  document.getElementById('reset-btn').onclick=function(){
+    if(confirm('Reset all edits to defaults?')){
+      Object.keys(localStorage).filter(k=>k.startsWith('aw_')).forEach(k=>localStorage.removeItem(k));
+      location.reload();
+    }
+  };
+
+  // Load saved edits on start
+  document.querySelectorAll('[data-key]').forEach(el=>{
+    const saved=localStorage.getItem('aw_'+el.dataset.key);
+    if(saved) el.innerHTML=saved;
+  });
+
+  // Slide-specific animations
+  function triggerSlideAnimations(n){
+    // Count-up for slide 9
+    if(n===9){
+      [['s9-n1',80],['s9-n2',100],['s9-n3',100],['s9-n4',100],['s9-n5',100]].forEach(([id,target])=>{
+        countUp(id,target,'%');
+      });
+    }
+    // Progress bar for slide 10
+    if(n===10){
+      const fill=document.getElementById('progress-fill');
+      if(fill){fill.style.animation='none';void fill.offsetWidth;fill.style.animation='progressFill 1.5s ease both 400ms forwards';}
+    }
+  }
+
+  function countUp(id,target,suffix){
+    const el=document.getElementById(id);
+    if(!el)return;
+    let val=0;
+    const step=Math.ceil(target/40);
+    const iv=setInterval(()=>{
+      val=Math.min(val+step,target);
+      el.textContent=val+suffix;
+      if(val>=target)clearInterval(iv);
+    },30);
+  }
+
+  // Trigger for slide 1 on load
+  triggerSlideAnimations(1);
+})();
+</script>
