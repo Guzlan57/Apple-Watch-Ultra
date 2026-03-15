@@ -396,103 +396,109 @@ body.edit-mode #reset-btn{display:block}
   <div class="two-col" style="max-width:1100px">
     <div style="display:flex;flex-direction:column;align-items:center;gap:16px">
       <h1 class="headline anim-fade-up" style="text-align:left" data-key="s2-headline">Forged Different.</h1><!-- EDIT: titanium headline -->
-      <div style="animation:watchRotate 8s ease-in-out infinite;margin-top:10px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" width="220" height="280" style="overflow:visible">
-  <!-- OPTIONAL: Replace with real Apple Watch image -->
-  <!-- Band stubs -->
-  <rect x="72" y="0" width="76" height="42" rx="10" fill="#3D7A9A"/>
-  <rect x="72" y="238" width="76" height="42" rx="10" fill="#3D7A9A"/>
-  <!-- Band texture lines -->
-  <line x1="80" y1="8" x2="164" y2="8" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
-  <line x1="80" y1="16" x2="164" y2="16" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
-  <line x1="80" y1="24" x2="164" y2="24" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
-  <line x1="80" y1="32" x2="164" y2="32" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
-  <line x1="80" y1="250" x2="164" y2="250" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
-  <line x1="80" y1="258" x2="164" y2="258" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
-  <line x1="80" y1="266" x2="164" y2="266" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
-  <line x1="80" y1="274" x2="164" y2="274" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
-  <!-- Titanium case gradient -->
-  <defs>
-    <linearGradient id="caseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#C8C8CC"/>
-      <stop offset="40%" stop-color="#A0A0A4"/>
-      <stop offset="100%" stop-color="#6A6A6E"/>
-    </linearGradient>
-    <linearGradient id="displayGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#0A0A0A"/>
-      <stop offset="100%" stop-color="#000000"/>
-    </linearGradient>
-  </defs>
-  <rect x="16" y="38" width="188" height="204" rx="28" fill="url(#caseGrad)"/>
-  <!-- Case edge highlight -->
-  <rect x="16" y="38" width="188" height="204" rx="28" fill="none" stroke="#D0D0D4" stroke-width="1.5"/>
-  <!-- Display bezel -->
-  <rect x="28" y="50" width="164" height="180" rx="20" fill="#0A0A0A"/>
-  <!-- Display screen -->
-  <rect x="34" y="56" width="152" height="168" rx="16" fill="#06080E"/>
-  <!-- Compass outer ring -->
-  <circle cx="110" cy="140" r="72" fill="none" stroke="#FF2D9A" stroke-width="1" opacity="0.6"/>
-  <!-- Compass inner ring -->
-  <circle cx="110" cy="140" r="54" fill="none" stroke="#FF2D9A" stroke-width="0.6" opacity="0.3"/>
-  <!-- Major tick N -->
-  <line x1="110" y1="70" x2="110" y2="80" stroke="#FF2D9A" stroke-width="2.5"/>
-  <!-- Major tick S -->
-  <line x1="110" y1="200" x2="110" y2="210" stroke="#FF2D9A" stroke-width="2.5"/>
-  <!-- Major tick E -->
-  <line x1="178" y1="140" x2="188" y2="140" stroke="#FF2D9A" stroke-width="2"/>
-  <!-- Major tick W -->
-  <line x1="32" y1="140" x2="42" y2="140" stroke="#FF2D9A" stroke-width="2"/>
-  <!-- Minor ticks -->
-  <line x1="148" y1="92" x2="142" y2="98" stroke="#FF2D9A" stroke-width="1" opacity="0.5"/>
-  <line x1="172" y1="116" x2="166" y2="120" stroke="#FF2D9A" stroke-width="1" opacity="0.5"/>
-  <line x1="172" y1="164" x2="166" y2="160" stroke="#FF2D9A" stroke-width="1" opacity="0.5"/>
-  <line x1="148" y1="188" x2="142" y2="182" stroke="#FF2D9A" stroke-width="1" opacity="0.5"/>
-  <line x1="72" y1="188" x2="78" y2="182" stroke="#FF2D9A" stroke-width="1" opacity="0.5"/>
-  <line x1="48" y1="164" x2="54" y2="160" stroke="#FF2D9A" stroke-width="1" opacity="0.5"/>
-  <line x1="48" y1="116" x2="54" y2="120" stroke="#FF2D9A" stroke-width="1" opacity="0.5"/>
-  <line x1="72" y1="92" x2="78" y2="98" stroke="#FF2D9A" stroke-width="1" opacity="0.5"/>
-  <!-- N/S/E/W labels -->
-  <text x="110" y="88" text-anchor="middle" fill="#FF2D9A" font-family="-apple-system,Helvetica" font-size="11" font-weight="700">N</text>
-  <text x="110" y="208" text-anchor="middle" fill="#FF2D9A" font-family="-apple-system,Helvetica" font-size="11" font-weight="700">S</text>
-  <text x="183" y="144" text-anchor="middle" fill="#FF2D9A" font-family="-apple-system,Helvetica" font-size="11" font-weight="700">E</text>
-  <text x="37" y="144" text-anchor="middle" fill="#FF2D9A" font-family="-apple-system,Helvetica" font-size="11" font-weight="700">W</text>
-  <!-- Compass needle pointing north -->
-  <polygon points="110,85 107,128 110,126 113,128" fill="#FF2D9A"/>
-  <polygon points="110,195 107,152 110,154 113,152" fill="#5A5A5C"/>
-  <!-- Small center dot -->
-  <circle cx="110" cy="140" r="3" fill="#FF2D9A"/>
-  <!-- Time display -->
-  <text x="110" y="132" text-anchor="middle" fill="white" font-family="-apple-system,Helvetica" font-size="30" font-weight="300" letter-spacing="-1">10:09</text>
-  <!-- Date -->
-  <text x="110" y="148" text-anchor="middle" fill="#86868B" font-family="-apple-system,Helvetica" font-size="10">FRI 14</text>
-  <!-- Top complications -->
-  <text x="65" y="108" text-anchor="middle" fill="#86868B" font-family="-apple-system,Helvetica" font-size="9">43°</text>
-  <text x="155" y="108" text-anchor="middle" fill="#86868B" font-family="-apple-system,Helvetica" font-size="9">6,370FT</text>
-  <!-- Bottom complications row -->
-  <circle cx="72" cy="172" r="12" fill="#1C1C1E"/>
-  <text x="72" y="176" text-anchor="middle" fill="#FF2D9A" font-size="8" font-family="-apple-system,Helvetica" font-weight="600">HR</text>
-  <circle cx="110" cy="172" r="12" fill="#1C1C1E"/>
-  <text x="110" y="176" text-anchor="middle" fill="#FF2D9A" font-size="8" font-family="-apple-system,Helvetica" font-weight="600">UV</text>
-  <circle cx="148" cy="172" r="12" fill="#1C1C1E"/>
-  <text x="148" y="176" text-anchor="middle" fill="#5AC8FA" font-size="8" font-family="-apple-system,Helvetica" font-weight="600">°C</text>
-  <!-- Orange bezel markers -->
-  <rect x="106" y="57" width="8" height="4" rx="2" fill="#FF6B00"/>
-  <rect x="106" y="219" width="8" height="4" rx="2" fill="#FF6B00"/>
-  <rect x="35" y="136" width="4" height="8" rx="2" fill="#FF6B00"/>
-  <rect x="181" y="136" width="4" height="8" rx="2" fill="#FF6B00"/>
-  <!-- Digital Crown (right side) -->
-  <rect x="202" y="88" width="14" height="36" rx="6" fill="#A0A0A4"/>
-  <rect x="202" y="88" width="14" height="36" rx="6" fill="none" stroke="#C0C0C4" stroke-width="1.5"/>
-  <rect x="204" y="92" width="10" height="4" rx="2" fill="#4A4A4C"/>
-  <rect x="204" y="100" width="10" height="4" rx="2" fill="#4A4A4C"/>
-  <rect x="204" y="108" width="10" height="4" rx="2" fill="#4A4A4C"/>
-  <!-- Side Button (right, below crown) -->
-  <rect x="202" y="132" width="14" height="22" rx="5" fill="#A0A0A4"/>
-  <!-- Action Button (LEFT side, orange - Ultra signature) -->
-  <rect x="4" y="96" width="14" height="28" rx="5" fill="#FF6B00"/>
-  <rect x="7" y="103" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
-  <rect x="7" y="109" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
-  <rect x="7" y="115" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
-</svg></div>
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;height:340px;width:260px" id="s2-explode-container">
+      <!-- Watch body (base) - positioned in center -->
+      <div id="s2-watch-body" style="position:absolute;transition:transform 1.2s cubic-bezier(0.4,0,0.2,1),opacity 0.6s ease;transform:translateX(0) translateY(0);opacity:1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" width="180" height="228" style="overflow:visible">
+          <!-- Band top -->
+          <rect x="72" y="0" width="76" height="42" rx="10" fill="#3D7A9A"/>
+          <line x1="82" y1="10" x2="138" y2="10" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
+          <line x1="82" y1="18" x2="138" y2="18" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
+          <line x1="82" y1="26" x2="138" y2="26" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
+          <line x1="82" y1="34" x2="138" y2="34" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
+          <!-- Band bottom -->
+          <rect x="72" y="238" width="76" height="42" rx="10" fill="#3D7A9A"/>
+          <line x1="82" y1="246" x2="138" y2="246" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
+          <line x1="82" y1="254" x2="138" y2="254" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
+          <line x1="82" y1="262" x2="138" y2="262" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
+          <line x1="82" y1="270" x2="138" y2="270" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
+          <defs>
+            <linearGradient id="s2caseG" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#C8C8CC"/>
+              <stop offset="40%" stop-color="#A0A0A4"/>
+              <stop offset="100%" stop-color="#6A6A6E"/>
+            </linearGradient>
+          </defs>
+          <rect x="14" y="36" width="192" height="208" rx="30" fill="url(#s2caseG)"/>
+          <rect x="14" y="36" width="192" height="208" rx="30" fill="none" stroke="#D0D0D4" stroke-width="2"/>
+          <!-- Case body only - no screen (screen is separate layer) -->
+          <rect x="28" y="50" width="164" height="180" rx="20" fill="#0A0A0A"/>
+          <!-- Watch internals hint (S10 chip visible) -->
+          <rect x="50" y="110" width="120" height="80" rx="6" fill="#141414"/>
+          <rect x="50" y="110" width="120" height="80" rx="6" fill="none" stroke="#3A3A3C" stroke-width="1"/>
+          <text x="110" y="157" text-anchor="middle" fill="#5A5A5C" font-family="-apple-system,Helvetica" font-size="14" font-weight="600">S10 SiP</text>
+          <!-- Crown -->
+          <rect x="204" y="88" width="14" height="36" rx="6" fill="#A0A0A4"/>
+          <rect x="204" y="88" width="14" height="36" rx="6" fill="none" stroke="#C0C0C4" stroke-width="1.5"/>
+          <!-- Action button -->
+          <rect x="0" y="96" width="14" height="28" rx="5" fill="#FF6B00"/>
+          <!-- Side button -->
+          <rect x="204" y="132" width="14" height="22" rx="5" fill="#A0A0A4"/>
+        </svg>
+      </div>
+      <!-- Screen layer (lifts up) -->
+      <div id="s2-screen" style="position:absolute;transition:transform 1s cubic-bezier(0.34,1.2,0.64,1) 0.3s,opacity 0.5s ease 0.3s;transform:translateY(0) translateZ(0) rotateX(0deg);opacity:1;transform-style:preserve-3d">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 168 184" width="138" height="151" style="filter:drop-shadow(0 8px 24px rgba(255,45,154,0.3))">
+          <defs>
+            <linearGradient id="s2screenG" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#4A4A4C"/>
+              <stop offset="100%" stop-color="#2A2A2C"/>
+            </linearGradient>
+          </defs>
+          <!-- Screen glass/bezel -->
+          <rect x="0" y="0" width="168" height="184" rx="22" fill="url(#s2screenG)"/>
+          <rect x="6" y="6" width="156" height="172" rx="18" fill="#06080E"/>
+          <!-- Compass face on screen -->
+          <circle cx="84" cy="92" r="68" fill="none" stroke="#FF2D9A" stroke-width="0.8" opacity="0.5"/>
+          <circle cx="84" cy="92" r="50" fill="none" stroke="#FF2D9A" stroke-width="0.5" opacity="0.3"/>
+          <line x1="84" y1="26" x2="84" y2="34" stroke="#FF2D9A" stroke-width="2"/>
+          <line x1="84" y1="150" x2="84" y2="158" stroke="#FF2D9A" stroke-width="2"/>
+          <line x1="18" y1="92" x2="26" y2="92" stroke="#FF2D9A" stroke-width="2"/>
+          <line x1="142" y1="92" x2="150" y2="92" stroke="#FF2D9A" stroke-width="2"/>
+          <text x="84" y="34" text-anchor="middle" fill="#FF2D9A" font-family="-apple-system,Helvetica" font-size="10" font-weight="700">N</text>
+          <text x="84" y="165" text-anchor="middle" fill="#FF2D9A" font-family="-apple-system,Helvetica" font-size="10" font-weight="700">S</text>
+          <text x="155" y="96" text-anchor="middle" fill="#FF2D9A" font-family="-apple-system,Helvetica" font-size="10" font-weight="700">E</text>
+          <text x="13" y="96" text-anchor="middle" fill="#FF2D9A" font-family="-apple-system,Helvetica" font-size="10" font-weight="700">W</text>
+          <polygon points="84,30 81,76 84,74 87,76" fill="#FF2D9A"/>
+          <polygon points="84,154 81,108 84,110 87,108" fill="#5A5A5C"/>
+          <circle cx="84" cy="92" r="3" fill="#FF2D9A"/>
+          <text x="84" y="88" text-anchor="middle" fill="white" font-family="-apple-system,Helvetica" font-size="26" font-weight="300" letter-spacing="-1">10:09</text>
+          <text x="84" y="103" text-anchor="middle" fill="#86868B" font-family="-apple-system,Helvetica" font-size="9">FRI 14</text>
+          <!-- Screen edge glow -->
+          <rect x="0" y="0" width="168" height="184" rx="22" fill="none" stroke="#FF2D9A" stroke-width="1" opacity="0.4"/>
+        </svg>
+      </div>
+      <!-- Chip layer (flies out from watch center) -->
+      <div id="s2-chip" style="position:absolute;transition:transform 1s cubic-bezier(0.34,1.4,0.64,1) 0.6s,opacity 0.5s ease 0.5s;transform:translateY(0) scale(1);opacity:0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="80" height="80" style="filter:drop-shadow(0 4px 16px rgba(255,107,0,0.5))">
+          <defs><linearGradient id="s2chipG" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2C2C2E"/><stop offset="100%" stop-color="#1C1C1E"/></linearGradient></defs>
+          <rect x="20" y="20" width="80" height="80" rx="8" fill="url(#s2chipG)"/>
+          <rect x="20" y="20" width="80" height="80" rx="8" fill="none" stroke="#5A5A5C" stroke-width="1"/>
+          <rect x="30" y="30" width="60" height="60" rx="4" fill="#141414"/>
+          <text x="60" y="65" text-anchor="middle" fill="white" font-family="-apple-system,Helvetica" font-size="18" font-weight="700" letter-spacing="-1">S10</text>
+          <rect x="26" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
+          <rect x="40" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
+          <rect x="54" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
+          <rect x="68" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
+          <rect x="82" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
+          <rect x="26" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
+          <rect x="40" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
+          <rect x="54" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
+          <rect x="68" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
+          <rect x="82" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
+          <rect x="12" y="26" width="7" height="8" rx="2" fill="#C9A227"/>
+          <rect x="12" y="40" width="7" height="8" rx="2" fill="#C9A227"/>
+          <rect x="12" y="54" width="7" height="8" rx="2" fill="#C9A227"/>
+          <rect x="12" y="68" width="7" height="8" rx="2" fill="#C9A227"/>
+          <rect x="12" y="82" width="7" height="8" rx="2" fill="#C9A227"/>
+          <rect x="101" y="26" width="7" height="8" rx="2" fill="#C9A227"/>
+          <rect x="101" y="40" width="7" height="8" rx="2" fill="#C9A227"/>
+          <rect x="101" y="54" width="7" height="8" rx="2" fill="#C9A227"/>
+          <rect x="101" y="68" width="7" height="8" rx="2" fill="#C9A227"/>
+          <rect x="101" y="82" width="7" height="8" rx="2" fill="#C9A227"/>
+        </svg>
+      </div>
+    </div>
       <div class="badge anim-fade-up delay-4" data-key="s2-badge">49mm Aerospace-Grade Titanium</div>
     </div>
     <div style="display:flex;flex-direction:column;gap:16px;padding-left:20px">
@@ -1054,34 +1060,63 @@ body.edit-mode #reset-btn{display:block}
 <div class="slide" id="slide-9">
   <h1 class="headline anim-fade-up" data-key="s9-headline">Better for the Planet. By Design.</h1><!-- EDIT: sustainability headline -->
   <div class="two-col" style="max-width:1100px;margin-top:20px;align-items:center">
-    <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
-      <!-- EXPLODED WATCH VIEW -->
-      <div class="exploded-view" id="exploded-view">
-        <div class="explode-layer explode-layer-1" id="el-1">
-          SAPPHIRE CRYSTAL
-          <span class="layer-label" data-key="s9-label1">Scratch-resistant &middot; 100% recycled origin</span><!-- EDIT -->
-        </div>
-        <div class="explode-layer explode-layer-2" id="el-2">
-          OLED DISPLAY
-          <span class="layer-label" data-key="s9-label2">LTPO3 &middot; 1Hz Always-On</span><!-- EDIT -->
-        </div>
-        <div class="explode-layer explode-layer-3" id="el-3">
-          S10 CHIP
-          <span class="layer-label" data-key="s9-label3">5.6B transistors &middot; Most efficient ever</span><!-- EDIT -->
-        </div>
-        <div class="explode-layer explode-layer-4" id="el-4">
-          BATTERY
-          <span class="layer-label" data-key="s9-label4">100% recycled cobalt</span><!-- EDIT -->
-        </div>
-        <div class="explode-layer explode-layer-5" id="el-5">
-          SENSOR ARRAY
-          <span class="layer-label" data-key="s9-label5">Heart &middot; ECG &middot; Blood O2 &middot; Temp</span><!-- EDIT -->
-        </div>
-        <div class="explode-layer explode-layer-6" id="el-6">
-          TITANIUM CASE
-          <span class="layer-label" data-key="s9-label6">100% recycled titanium &middot; 3D printed</span><!-- EDIT -->
-        </div>
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px">
+      <!-- SPINNING GLOBE -->
+      <div class="anim-fade-up" style="position:relative">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" width="220" height="220" style="overflow:visible">
+          <defs>
+            <clipPath id="globe-clip">
+              <circle cx="110" cy="110" r="90"/>
+            </clipPath>
+            <radialGradient id="globeBg" cx="40%" cy="35%" r="60%">
+              <stop offset="0%" stop-color="#0D1A0D"/>
+              <stop offset="100%" stop-color="#020802"/>
+            </radialGradient>
+          </defs>
+          <!-- Globe background -->
+          <circle cx="110" cy="110" r="90" fill="url(#globeBg)"/>
+          <!-- Latitude lines (static) -->
+          <g clip-path="url(#globe-clip)" opacity="0.5">
+            <ellipse cx="110" cy="46" rx="30" ry="8" fill="none" stroke="#30D158" stroke-width="0.8"/>
+            <ellipse cx="110" cy="74" rx="72" ry="14" fill="none" stroke="#30D158" stroke-width="0.8"/>
+            <ellipse cx="110" cy="110" rx="90" ry="18" fill="none" stroke="#30D158" stroke-width="1"/>
+            <ellipse cx="110" cy="146" rx="72" ry="14" fill="none" stroke="#30D158" stroke-width="0.8"/>
+            <ellipse cx="110" cy="174" rx="30" ry="8" fill="none" stroke="#30D158" stroke-width="0.8"/>
+          </g>
+          <!-- Spinning meridians -->
+          <g clip-path="url(#globe-clip)">
+            <g opacity="0.6">
+              <animateTransform attributeName="transform" type="rotate" from="0 110 110" to="360 110 110" dur="10s" repeatCount="indefinite"/>
+              <ellipse cx="110" cy="110" rx="18" ry="90" fill="none" stroke="#30D158" stroke-width="0.9"/>
+              <ellipse cx="110" cy="110" rx="52" ry="90" fill="none" stroke="#30D158" stroke-width="0.8"/>
+              <ellipse cx="110" cy="110" rx="78" ry="90" fill="none" stroke="#30D158" stroke-width="0.7"/>
+              <ellipse cx="110" cy="110" rx="90" ry="90" fill="none" stroke="#30D158" stroke-width="0.6"/>
+            </g>
+          </g>
+          <!-- Continent-like hand-drawn blobs -->
+          <g clip-path="url(#globe-clip)" opacity="0.35">
+            <animateTransform attributeName="transform" type="rotate" from="0 110 110" to="360 110 110" dur="10s" repeatCount="indefinite"/>
+            <!-- North America blob -->
+            <path d="M80,62 Q68,70 70,88 Q74,104 86,100 Q96,96 94,82 Q92,68 80,62Z" fill="#30D158"/>
+            <!-- Europe blob -->
+            <path d="M118,58 Q110,62 112,74 Q116,82 126,78 Q132,70 126,60Z" fill="#30D158"/>
+            <!-- Africa blob -->
+            <path d="M120,90 Q114,96 116,116 Q120,130 130,126 Q140,118 136,100 Q132,86 120,90Z" fill="#30D158"/>
+            <!-- Asia blob -->
+            <path d="M134,62 Q126,66 130,80 Q138,88 152,84 Q162,76 156,64 Q148,56 134,62Z" fill="#30D158"/>
+          </g>
+          <!-- Globe outline (on top) -->
+          <circle cx="110" cy="110" r="90" fill="none" stroke="#30D158" stroke-width="2"/>
+          <!-- Highlight rim -->
+          <circle cx="110" cy="110" r="90" fill="none" stroke="#30D158" stroke-width="1" opacity="0.2"/>
+          <!-- Subtle glow at top-left -->
+          <circle cx="82" cy="82" r="28" fill="none" stroke="white" stroke-width="1" opacity="0.05"/>
+          <!-- Pole dots -->
+          <circle cx="110" cy="20" r="3" fill="#30D158" opacity="0.8"/>
+          <circle cx="110" cy="200" r="3" fill="#30D158" opacity="0.8"/>
+        </svg>
       </div>
+      <div class="anim-fade-up delay-1" style="font-size:12px;color:#30D158;letter-spacing:0.08em;text-align:center;opacity:0.7">APPLE 2030</div>
     </div>
     <div style="display:flex;flex-direction:column;gap:18px">
       <div class="anim-slide-right delay-1">
@@ -1170,11 +1205,12 @@ body.edit-mode #reset-btn{display:block}
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" width="100" height="127" style="opacity:0.6">
       <rect x="72" y="0" width="76" height="42" rx="10" fill="#3D7A9A"/>
       <rect x="72" y="238" width="76" height="42" rx="10" fill="#3D7A9A"/>
-      <defs><linearGradient id="cg11" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A4A4C"/><stop offset="100%" stop-color="#1C1C1E"/></linearGradient></defs>
+      <defs><linearGradient id="cg11" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#C8C8CC"/><stop offset="40%" stop-color="#A0A0A4"/><stop offset="100%" stop-color="#6A6A6E"/></linearGradient></defs>
       <rect x="16" y="38" width="188" height="204" rx="28" fill="url(#cg11)"/>
+      <rect x="16" y="38" width="188" height="204" rx="28" fill="none" stroke="#D0D0D4" stroke-width="1.5"/>
       <rect x="34" y="56" width="152" height="168" rx="16" fill="#000"/>
       <text x="110" y="150" text-anchor="middle" fill="white" font-family="-apple-system" font-size="30" font-weight="300">9:41</text>
-      <rect x="202" y="88" width="14" height="36" rx="6" fill="#3A3A3C" stroke="#FF6B00" stroke-width="1.5"/>
+      <rect x="202" y="88" width="14" height="36" rx="6" fill="#A0A0A4" stroke="#C0C0C4" stroke-width="1.5"/>
       <rect x="4" y="96" width="14" height="28" rx="5" fill="#FF6B00"/>
     </svg>
   </div>
@@ -1192,14 +1228,14 @@ body.edit-mode #reset-btn{display:block}
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" width="130" height="165">
       <rect x="72" y="0" width="76" height="42" rx="10" fill="#3D7A9A"/>
       <rect x="72" y="238" width="76" height="42" rx="10" fill="#3D7A9A"/>
-      <defs><linearGradient id="cg12" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A4A4C"/><stop offset="100%" stop-color="#1C1C1E"/></linearGradient></defs>
+      <defs><linearGradient id="cg12" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#C8C8CC"/><stop offset="40%" stop-color="#A0A0A4"/><stop offset="100%" stop-color="#6A6A6E"/></linearGradient></defs>
       <rect x="16" y="38" width="188" height="204" rx="28" fill="url(#cg12)"/>
       <rect x="16" y="38" width="188" height="204" rx="28" fill="none" stroke="#D0D0D4" stroke-width="1.5"/>
       <rect x="34" y="56" width="152" height="168" rx="16" fill="#000"/>
       <text x="110" y="150" text-anchor="middle" fill="white" font-family="-apple-system" font-size="30" font-weight="300">9:41</text>
       <rect x="106" y="57" width="8" height="4" rx="2" fill="#FF6B00"/>
       <rect x="106" y="219" width="8" height="4" rx="2" fill="#FF6B00"/>
-      <rect x="202" y="88" width="14" height="36" rx="6" fill="#3A3A3C" stroke="#FF6B00" stroke-width="1.5"/>
+      <rect x="202" y="88" width="14" height="36" rx="6" fill="#A0A0A4" stroke="#C0C0C4" stroke-width="1.5"/>
       <rect x="4" y="96" width="14" height="28" rx="5" fill="#FF6B00"/>
     </svg>
   </div>
@@ -1297,6 +1333,56 @@ body.edit-mode #reset-btn{display:block}
     if(n===10){
       const fill=document.getElementById('progress-fill');
       if(fill){fill.style.animation='none';void fill.offsetWidth;fill.style.animation='progressFill 1.5s ease both 400ms forwards';}
+    }
+    // Slide 7: battery fill animation
+    if(n===7){
+      const fill=document.getElementById('battery-fill');
+      if(fill){
+        fill.style.transition='none';
+        fill.style.width='0%';
+        void fill.offsetWidth;
+        fill.style.transition='width 2.5s cubic-bezier(0.4,0,0.2,1) 0.4s';
+        fill.style.width='95%';
+      }
+    }
+    // Slide 2: 3D exploded animation
+    if(n===2){
+      const watchBody = document.getElementById('s2-watch-body');
+      const screen = document.getElementById('s2-screen');
+      const chip = document.getElementById('s2-chip');
+      if(!watchBody||!screen||!chip) return;
+      // Reset to initial state
+      watchBody.style.transition='none';
+      screen.style.transition='none';
+      chip.style.transition='none';
+      watchBody.style.transform='translateX(0) translateY(0)';
+      screen.style.transform='translateY(0) perspective(600px) rotateX(0deg)';
+      screen.style.opacity='1';
+      chip.style.transform='translateY(0) scale(1)';
+      chip.style.opacity='0';
+      void watchBody.offsetWidth; // force reflow
+      // Phase 1 (0.3s): screen lifts up with 3D tilt
+      setTimeout(()=>{
+        screen.style.transition='transform 0.9s cubic-bezier(0.34,1.2,0.64,1), opacity 0.5s ease';
+        screen.style.transform='translateY(-70px) perspective(600px) rotateX(-18deg)';
+        screen.style.filter='drop-shadow(0 20px 40px rgba(255,45,154,0.5))';
+      },400);
+      // Phase 2 (0.8s): chip flies out
+      setTimeout(()=>{
+        chip.style.transition='transform 0.8s cubic-bezier(0.34,1.4,0.64,1), opacity 0.4s ease';
+        chip.style.opacity='1';
+        chip.style.transform='translateY(30px) scale(1.2)';
+        chip.style.filter='drop-shadow(0 8px 24px rgba(255,107,0,0.7))';
+      },900);
+      // Phase 3 (1.5s): everything moves to left side
+      setTimeout(()=>{
+        watchBody.style.transition='transform 1s cubic-bezier(0.4,0,0.2,1)';
+        screen.style.transition='transform 1s cubic-bezier(0.4,0,0.2,1)';
+        chip.style.transition='transform 1s cubic-bezier(0.4,0,0.2,1)';
+        watchBody.style.transform='translateX(-90px) translateY(20px)';
+        screen.style.transform='translateX(-90px) translateY(-50px) perspective(600px) rotateX(-18deg)';
+        chip.style.transform='translateX(-90px) translateY(50px) scale(1.1)';
+      },1600);
     }
   }
 
