@@ -379,11 +379,10 @@ body.edit-mode #reset-btn{display:block}
   <rect x="204" y="108" width="10" height="4" rx="2" fill="#4A4A4C"/>
   <!-- Side Button (right, below crown) -->
   <rect x="202" y="132" width="14" height="22" rx="5" fill="#A0A0A4"/>
-  <!-- Action Button (LEFT side, orange - Ultra signature) -->
-  <rect x="4" y="96" width="14" height="28" rx="5" fill="#FF6B00"/>
-  <rect x="7" y="103" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
-  <rect x="7" y="109" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
-  <rect x="7" y="115" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+  <!-- Action Button: flat press-button, not a rotary crown -->
+  <rect x="2" y="100" width="13" height="20" rx="2" fill="#FF6B00"/>
+  <rect x="2" y="100" width="13" height="20" rx="2" fill="none" stroke="#CC4400" stroke-width="0.8" opacity="0.6"/>
+  <circle cx="8.5" cy="110" r="3" fill="rgba(0,0,0,0.25)"/>
 </svg>
   </div>
   <h1 class="headline anim-fade-up delay-3" data-key="s1-headline">Apple Watch Ultra 3</h1><!-- EDIT: main title -->
@@ -396,108 +395,82 @@ body.edit-mode #reset-btn{display:block}
   <div class="two-col" style="max-width:1100px">
     <div style="display:flex;flex-direction:column;align-items:center;gap:16px">
       <h1 class="headline anim-fade-up" style="text-align:left" data-key="s2-headline">Forged Different.</h1><!-- EDIT: titanium headline -->
-    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;height:340px;width:260px" id="s2-explode-container">
-      <!-- Watch body (base) - positioned in center -->
-      <div id="s2-watch-body" style="position:absolute;transition:transform 1.2s cubic-bezier(0.4,0,0.2,1),opacity 0.6s ease;transform:translateX(0) translateY(0);opacity:1">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" width="180" height="228" style="overflow:visible">
-          <!-- Band top -->
-          <rect x="72" y="0" width="76" height="42" rx="10" fill="#3D7A9A"/>
-          <line x1="82" y1="10" x2="138" y2="10" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
-          <line x1="82" y1="18" x2="138" y2="18" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
-          <line x1="82" y1="26" x2="138" y2="26" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
-          <line x1="82" y1="34" x2="138" y2="34" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
-          <!-- Band bottom -->
-          <rect x="72" y="238" width="76" height="42" rx="10" fill="#3D7A9A"/>
-          <line x1="82" y1="246" x2="138" y2="246" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
-          <line x1="82" y1="254" x2="138" y2="254" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
-          <line x1="82" y1="262" x2="138" y2="262" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
-          <line x1="82" y1="270" x2="138" y2="270" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
-          <defs>
-            <linearGradient id="s2caseG" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#C8C8CC"/>
-              <stop offset="40%" stop-color="#A0A0A4"/>
-              <stop offset="100%" stop-color="#6A6A6E"/>
-            </linearGradient>
-          </defs>
-          <rect x="14" y="36" width="192" height="208" rx="30" fill="url(#s2caseG)"/>
-          <rect x="14" y="36" width="192" height="208" rx="30" fill="none" stroke="#D0D0D4" stroke-width="2"/>
-          <!-- Case body only - no screen (screen is separate layer) -->
-          <rect x="28" y="50" width="164" height="180" rx="20" fill="#0A0A0A"/>
-          <!-- Watch internals hint (S10 chip visible) -->
-          <rect x="50" y="110" width="120" height="80" rx="6" fill="#141414"/>
-          <rect x="50" y="110" width="120" height="80" rx="6" fill="none" stroke="#3A3A3C" stroke-width="1"/>
-          <text x="110" y="157" text-anchor="middle" fill="#5A5A5C" font-family="-apple-system,Helvetica" font-size="14" font-weight="600">S10 SiP</text>
-          <!-- Crown -->
-          <rect x="204" y="88" width="14" height="36" rx="6" fill="#A0A0A4"/>
-          <rect x="204" y="88" width="14" height="36" rx="6" fill="none" stroke="#C0C0C4" stroke-width="1.5"/>
-          <!-- Action button -->
-          <rect x="0" y="96" width="14" height="28" rx="5" fill="#FF6B00"/>
-          <!-- Side button -->
-          <rect x="204" y="132" width="14" height="22" rx="5" fill="#A0A0A4"/>
-        </svg>
-      </div>
-      <!-- Screen layer (lifts up) -->
-      <div id="s2-screen" style="position:absolute;transition:transform 1s cubic-bezier(0.34,1.2,0.64,1) 0.3s,opacity 0.5s ease 0.3s;transform:translateY(0) translateZ(0) rotateX(0deg);opacity:1;transform-style:preserve-3d">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 168 184" width="138" height="151" style="filter:drop-shadow(0 8px 24px rgba(255,45,154,0.3))">
-          <defs>
-            <linearGradient id="s2screenG" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#4A4A4C"/>
-              <stop offset="100%" stop-color="#2A2A2C"/>
-            </linearGradient>
-          </defs>
-          <!-- Screen glass/bezel -->
-          <rect x="0" y="0" width="168" height="184" rx="22" fill="url(#s2screenG)"/>
-          <rect x="6" y="6" width="156" height="172" rx="18" fill="#06080E"/>
-          <!-- Compass face on screen -->
-          <circle cx="84" cy="92" r="68" fill="none" stroke="#FF2D9A" stroke-width="0.8" opacity="0.5"/>
-          <circle cx="84" cy="92" r="50" fill="none" stroke="#FF2D9A" stroke-width="0.5" opacity="0.3"/>
-          <line x1="84" y1="26" x2="84" y2="34" stroke="#FF2D9A" stroke-width="2"/>
-          <line x1="84" y1="150" x2="84" y2="158" stroke="#FF2D9A" stroke-width="2"/>
-          <line x1="18" y1="92" x2="26" y2="92" stroke="#FF2D9A" stroke-width="2"/>
-          <line x1="142" y1="92" x2="150" y2="92" stroke="#FF2D9A" stroke-width="2"/>
-          <text x="84" y="34" text-anchor="middle" fill="#FF2D9A" font-family="-apple-system,Helvetica" font-size="10" font-weight="700">N</text>
-          <text x="84" y="165" text-anchor="middle" fill="#FF2D9A" font-family="-apple-system,Helvetica" font-size="10" font-weight="700">S</text>
-          <text x="155" y="96" text-anchor="middle" fill="#FF2D9A" font-family="-apple-system,Helvetica" font-size="10" font-weight="700">E</text>
-          <text x="13" y="96" text-anchor="middle" fill="#FF2D9A" font-family="-apple-system,Helvetica" font-size="10" font-weight="700">W</text>
-          <polygon points="84,30 81,76 84,74 87,76" fill="#FF2D9A"/>
-          <polygon points="84,154 81,108 84,110 87,108" fill="#5A5A5C"/>
-          <circle cx="84" cy="92" r="3" fill="#FF2D9A"/>
-          <text x="84" y="88" text-anchor="middle" fill="white" font-family="-apple-system,Helvetica" font-size="26" font-weight="300" letter-spacing="-1">10:09</text>
-          <text x="84" y="103" text-anchor="middle" fill="#86868B" font-family="-apple-system,Helvetica" font-size="9">FRI 14</text>
-          <!-- Screen edge glow -->
-          <rect x="0" y="0" width="168" height="184" rx="22" fill="none" stroke="#FF2D9A" stroke-width="1" opacity="0.4"/>
-        </svg>
-      </div>
-      <!-- Chip layer (flies out from watch center) -->
-      <div id="s2-chip" style="position:absolute;transition:transform 1s cubic-bezier(0.34,1.4,0.64,1) 0.6s,opacity 0.5s ease 0.5s;transform:translateY(0) scale(1);opacity:0">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="80" height="80" style="filter:drop-shadow(0 4px 16px rgba(255,107,0,0.5))">
-          <defs><linearGradient id="s2chipG" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2C2C2E"/><stop offset="100%" stop-color="#1C1C1E"/></linearGradient></defs>
-          <rect x="20" y="20" width="80" height="80" rx="8" fill="url(#s2chipG)"/>
-          <rect x="20" y="20" width="80" height="80" rx="8" fill="none" stroke="#5A5A5C" stroke-width="1"/>
-          <rect x="30" y="30" width="60" height="60" rx="4" fill="#141414"/>
-          <text x="60" y="65" text-anchor="middle" fill="white" font-family="-apple-system,Helvetica" font-size="18" font-weight="700" letter-spacing="-1">S10</text>
-          <rect x="26" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
-          <rect x="40" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
-          <rect x="54" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
-          <rect x="68" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
-          <rect x="82" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
-          <rect x="26" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
-          <rect x="40" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
-          <rect x="54" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
-          <rect x="68" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
-          <rect x="82" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
-          <rect x="12" y="26" width="7" height="8" rx="2" fill="#C9A227"/>
-          <rect x="12" y="40" width="7" height="8" rx="2" fill="#C9A227"/>
-          <rect x="12" y="54" width="7" height="8" rx="2" fill="#C9A227"/>
-          <rect x="12" y="68" width="7" height="8" rx="2" fill="#C9A227"/>
-          <rect x="12" y="82" width="7" height="8" rx="2" fill="#C9A227"/>
-          <rect x="101" y="26" width="7" height="8" rx="2" fill="#C9A227"/>
-          <rect x="101" y="40" width="7" height="8" rx="2" fill="#C9A227"/>
-          <rect x="101" y="54" width="7" height="8" rx="2" fill="#C9A227"/>
-          <rect x="101" y="68" width="7" height="8" rx="2" fill="#C9A227"/>
-          <rect x="101" y="82" width="7" height="8" rx="2" fill="#C9A227"/>
-        </svg>
-      </div>
+    <!-- Titanium enclosure diagram for Slide 2 -->
+    <div class="anim-fade-up delay-2" style="display:flex;flex-direction:column;align-items:center;gap:10px">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 320" width="240" height="274" style="overflow:visible;filter:drop-shadow(0 8px 32px rgba(160,160,164,0.25))">
+        <defs>
+          <linearGradient id="s2encG" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#D8D8DC"/>
+            <stop offset="35%" stop-color="#B0B0B4"/>
+            <stop offset="100%" stop-color="#6A6A6E"/>
+          </linearGradient>
+          <linearGradient id="s2encSide" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#8A8A8E"/>
+            <stop offset="100%" stop-color="#5A5A5E"/>
+          </linearGradient>
+          <linearGradient id="s2latticeBg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1A1A1C"/>
+            <stop offset="100%" stop-color="#0A0A0A"/>
+          </linearGradient>
+        </defs>
+        <!-- Outer titanium case body -->
+        <rect x="30" y="30" width="220" height="260" rx="38" fill="url(#s2encG)"/>
+        <rect x="30" y="30" width="220" height="260" rx="38" fill="none" stroke="#E0E0E4" stroke-width="2"/>
+        <!-- Case inner opening (cutaway) -->
+        <rect x="48" y="48" width="184" height="224" rx="28" fill="url(#s2latticeBg)"/>
+        <!-- 3D-printed lattice structure pattern (internal honeycomb) -->
+        <!-- Row 1 hex cells -->
+        <path d="M80,70 L100,70 L110,86 L100,102 L80,102 L70,86 Z" fill="none" stroke="#3A3A3C" stroke-width="1.2" opacity="0.8"/>
+        <path d="M110,70 L130,70 L140,86 L130,102 L110,102 L100,86 Z" fill="none" stroke="#3A3A3C" stroke-width="1.2" opacity="0.8"/>
+        <path d="M140,70 L160,70 L170,86 L160,102 L140,102 L130,86 Z" fill="none" stroke="#3A3A3C" stroke-width="1.2" opacity="0.8"/>
+        <path d="M170,70 L190,70 L200,86 L190,102 L170,102 L160,86 Z" fill="none" stroke="#3A3A3C" stroke-width="1.2" opacity="0.8"/>
+        <!-- Row 2 hex cells (offset) -->
+        <path d="M65,102 L85,102 L95,118 L85,134 L65,134 L55,118 Z" fill="none" stroke="#3A3A3C" stroke-width="1.2" opacity="0.7"/>
+        <path d="M95,102 L115,102 L125,118 L115,134 L95,134 L85,118 Z" fill="none" stroke="#3A3A3C" stroke-width="1.2" opacity="0.7"/>
+        <path d="M125,102 L145,102 L155,118 L145,134 L125,134 L115,118 Z" fill="none" stroke="#3A3A3C" stroke-width="1.2" opacity="0.7"/>
+        <path d="M155,102 L175,102 L185,118 L175,134 L155,134 L145,118 Z" fill="none" stroke="#3A3A3C" stroke-width="1.2" opacity="0.7"/>
+        <path d="M185,102 L205,102 L215,118 L205,134 L185,134 L175,118 Z" fill="none" stroke="#3A3A3C" stroke-width="1.2" opacity="0.7"/>
+        <!-- Row 3 -->
+        <path d="M80,134 L100,134 L110,150 L100,166 L80,166 L70,150 Z" fill="none" stroke="#3A3A3C" stroke-width="1.2" opacity="0.5"/>
+        <path d="M110,134 L130,134 L140,150 L130,166 L110,166 L100,150 Z" fill="none" stroke="#3A3A3C" stroke-width="1.2" opacity="0.5"/>
+        <path d="M140,134 L160,134 L170,150 L160,166 L140,166 L130,150 Z" fill="none" stroke="#3A3A3C" stroke-width="1.2" opacity="0.5"/>
+        <path d="M170,134 L190,134 L200,150 L190,166 L170,166 L160,150 Z" fill="none" stroke="#3A3A3C" stroke-width="1.2" opacity="0.5"/>
+        <!-- Row 4 -->
+        <path d="M65,166 L85,166 L95,182 L85,198 L65,198 L55,182 Z" fill="none" stroke="#3A3A3C" stroke-width="1.2" opacity="0.4"/>
+        <path d="M95,166 L115,166 L125,182 L115,198 L95,198 L85,182 Z" fill="none" stroke="#3A3A3C" stroke-width="1.2" opacity="0.4"/>
+        <path d="M125,166 L145,166 L155,182 L145,198 L125,198 L115,182 Z" fill="none" stroke="#3A3A3C" stroke-width="1.2" opacity="0.4"/>
+        <path d="M155,166 L175,166 L185,182 L175,198 L155,198 L145,182 Z" fill="none" stroke="#3A3A3C" stroke-width="1.2" opacity="0.4"/>
+        <path d="M185,166 L205,166 L215,182 L205,198 L185,198 L175,182 Z" fill="none" stroke="#3A3A3C" stroke-width="1.2" opacity="0.4"/>
+        <!-- Row 5 -->
+        <path d="M80,198 L100,198 L110,214 L100,230 L80,230 L70,214 Z" fill="none" stroke="#3A3A3C" stroke-width="1.2" opacity="0.3"/>
+        <path d="M110,198 L130,198 L140,214 L130,230 L110,230 L100,214 Z" fill="none" stroke="#3A3A3C" stroke-width="1.2" opacity="0.3"/>
+        <path d="M140,198 L160,198 L170,214 L160,230 L140,230 L130,214 Z" fill="none" stroke="#3A3A3C" stroke-width="1.2" opacity="0.3"/>
+        <path d="M170,198 L190,198 L200,214 L190,230 L170,230 L160,214 Z" fill="none" stroke="#3A3A3C" stroke-width="1.2" opacity="0.3"/>
+        <!-- Titanium wall thickness indicator (right side cutaway) -->
+        <rect x="220" y="58" width="12" height="204" rx="4" fill="url(#s2encSide)" opacity="0.9"/>
+        <rect x="220" y="58" width="12" height="204" rx="4" fill="none" stroke="#D0D0D4" stroke-width="1"/>
+        <!-- Wall thickness annotation arrows -->
+        <line x1="232" y1="80" x2="248" y2="80" stroke="#C8C8CC" stroke-width="1" opacity="0.7"/>
+        <line x1="232" y1="90" x2="248" y2="90" stroke="#C8C8CC" stroke-width="1" opacity="0.7"/>
+        <line x1="248" y1="78" x2="248" y2="92" stroke="#C8C8CC" stroke-width="1" opacity="0.7"/>
+        <text x="253" y="89" fill="#A0A0A4" font-family="-apple-system,Helvetica" font-size="8">2mm</text>
+        <!-- Digital Crown -->
+        <rect x="242" y="100" width="14" height="36" rx="6" fill="#A0A0A4"/>
+        <rect x="242" y="100" width="14" height="36" rx="6" fill="none" stroke="#C0C0C4" stroke-width="1.5"/>
+        <rect x="244" y="104" width="10" height="4" rx="2" fill="#4A4A4C"/>
+        <rect x="244" y="112" width="10" height="4" rx="2" fill="#4A4A4C"/>
+        <rect x="244" y="120" width="10" height="4" rx="2" fill="#4A4A4C"/>
+        <!-- Side Button -->
+        <rect x="242" y="144" width="14" height="22" rx="5" fill="#A0A0A4"/>
+        <!-- Action Button (flat) -->
+        <rect x="24" y="110" width="13" height="20" rx="2" fill="#FF6B00"/>
+        <rect x="24" y="110" width="13" height="20" rx="2" fill="none" stroke="#CC4400" stroke-width="0.8" opacity="0.6"/>
+        <circle cx="30.5" cy="120" r="3" fill="rgba(0,0,0,0.25)"/>
+        <!-- "3D PRINTED TITANIUM" label -->
+        <text x="140" y="256" text-anchor="middle" fill="#A0A0A4" font-family="-apple-system,Helvetica" font-size="9" letter-spacing="0.1em">3D PRINTED TITANIUM</text>
+        <!-- Titanium crystal grain texture overlay -->
+        <rect x="48" y="48" width="184" height="224" rx="28" fill="none" stroke="#C8C8CC" stroke-width="0.5" opacity="0.15"/>
+      </svg>
     </div>
       <div class="badge anim-fade-up delay-4" data-key="s2-badge">49mm Aerospace-Grade Titanium</div>
     </div>
@@ -577,11 +550,10 @@ body.edit-mode #reset-btn{display:block}
   <rect x="204" y="108" width="10" height="4" rx="2" fill="#4A4A4C"/>
   <!-- Side Button (right, below crown) -->
   <rect x="202" y="132" width="14" height="22" rx="5" fill="#A0A0A4"/>
-  <!-- Action Button (LEFT side, orange - Ultra signature) -->
-  <rect x="4" y="96" width="14" height="28" rx="5" fill="#FF6B00"/>
-  <rect x="7" y="103" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
-  <rect x="7" y="109" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
-  <rect x="7" y="115" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+  <!-- Action Button: flat press-button, not a rotary crown -->
+  <rect x="2" y="100" width="13" height="20" rx="2" fill="#FF6B00"/>
+  <rect x="2" y="100" width="13" height="20" rx="2" fill="none" stroke="#CC4400" stroke-width="0.8" opacity="0.6"/>
+  <circle cx="8.5" cy="110" r="3" fill="rgba(0,0,0,0.25)"/>
 </svg></div>
   <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px 40px;max-width:700px;margin-top:16px">
     <div class="spec-item anim-fade-up delay-1"><span data-key="s3-spec1">3,000 nits</span> peak brightness</div><!-- EDIT -->
@@ -599,7 +571,105 @@ body.edit-mode #reset-btn{display:block}
   <h1 class="headline anim-fade-up" data-key="s4-headline">Small Chip. Massive Capability.</h1><!-- EDIT: chip headline -->
   <div class="two-col" style="max-width:1000px;margin-top:30px">
     <div style="display:flex;flex-direction:column;align-items:center;gap:24px;position:relative">
-      <div style="opacity:0.18;position:absolute;top:-10px;transform:scale(0.7)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" width="220" height="280" style="overflow:visible">
+      <!-- Exploded chip animation (s4-watch-body / s4-screen / s4-chip) -->
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;height:340px;width:260px" id="s4-explode-container">
+      <div id="s4-watch-body" style="position:absolute;transition:transform 1.2s cubic-bezier(0.4,0,0.2,1),opacity 0.6s ease;transform:translateX(0) translateY(0);opacity:1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" width="180" height="228" style="overflow:visible">
+          <rect x="72" y="0" width="76" height="42" rx="10" fill="#3D7A9A"/>
+          <line x1="82" y1="10" x2="138" y2="10" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
+          <line x1="82" y1="18" x2="138" y2="18" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
+          <line x1="82" y1="26" x2="138" y2="26" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
+          <line x1="82" y1="34" x2="138" y2="34" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
+          <rect x="72" y="238" width="76" height="42" rx="10" fill="#3D7A9A"/>
+          <line x1="82" y1="246" x2="138" y2="246" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
+          <line x1="82" y1="254" x2="138" y2="254" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
+          <line x1="82" y1="262" x2="138" y2="262" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
+          <line x1="82" y1="270" x2="138" y2="270" stroke="#5AAABF" stroke-width="1.2" opacity="0.7"/>
+          <defs>
+            <linearGradient id="s4caseG" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#C8C8CC"/>
+              <stop offset="40%" stop-color="#A0A0A4"/>
+              <stop offset="100%" stop-color="#6A6A6E"/>
+            </linearGradient>
+          </defs>
+          <rect x="14" y="36" width="192" height="208" rx="30" fill="url(#s4caseG)"/>
+          <rect x="14" y="36" width="192" height="208" rx="30" fill="none" stroke="#D0D0D4" stroke-width="2"/>
+          <rect x="28" y="50" width="164" height="180" rx="20" fill="#0A0A0A"/>
+          <rect x="50" y="110" width="120" height="80" rx="6" fill="#141414"/>
+          <rect x="50" y="110" width="120" height="80" rx="6" fill="none" stroke="#3A3A3C" stroke-width="1"/>
+          <text x="110" y="157" text-anchor="middle" fill="#5A5A5C" font-family="-apple-system,Helvetica" font-size="14" font-weight="600">S10 SiP</text>
+          <rect x="204" y="88" width="14" height="36" rx="6" fill="#A0A0A4"/>
+          <rect x="204" y="88" width="14" height="36" rx="6" fill="none" stroke="#C0C0C4" stroke-width="1.5"/>
+          <rect x="2" y="100" width="13" height="20" rx="2" fill="#FF6B00"/>
+          <circle cx="8.5" cy="110" r="3" fill="rgba(0,0,0,0.25)"/>
+          <rect x="204" y="132" width="14" height="22" rx="5" fill="#A0A0A4"/>
+        </svg>
+      </div>
+      <div id="s4-screen" style="position:absolute;transition:transform 1s cubic-bezier(0.34,1.2,0.64,1) 0.3s,opacity 0.5s ease 0.3s;transform:translateY(0) translateZ(0) rotateX(0deg);opacity:1;transform-style:preserve-3d">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 168 184" width="138" height="151" style="filter:drop-shadow(0 8px 24px rgba(255,45,154,0.3))">
+          <defs>
+            <linearGradient id="s4screenG" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#4A4A4C"/>
+              <stop offset="100%" stop-color="#2A2A2C"/>
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="168" height="184" rx="22" fill="url(#s4screenG)"/>
+          <rect x="6" y="6" width="156" height="172" rx="18" fill="#06080E"/>
+          <circle cx="84" cy="92" r="68" fill="none" stroke="#FF2D9A" stroke-width="0.8" opacity="0.5"/>
+          <circle cx="84" cy="92" r="50" fill="none" stroke="#FF2D9A" stroke-width="0.5" opacity="0.3"/>
+          <line x1="84" y1="26" x2="84" y2="34" stroke="#FF2D9A" stroke-width="2"/>
+          <line x1="84" y1="150" x2="84" y2="158" stroke="#FF2D9A" stroke-width="2"/>
+          <line x1="18" y1="92" x2="26" y2="92" stroke="#FF2D9A" stroke-width="2"/>
+          <line x1="142" y1="92" x2="150" y2="92" stroke="#FF2D9A" stroke-width="2"/>
+          <text x="84" y="34" text-anchor="middle" fill="#FF2D9A" font-family="-apple-system,Helvetica" font-size="10" font-weight="700">N</text>
+          <text x="84" y="165" text-anchor="middle" fill="#FF2D9A" font-family="-apple-system,Helvetica" font-size="10" font-weight="700">S</text>
+          <text x="155" y="96" text-anchor="middle" fill="#FF2D9A" font-family="-apple-system,Helvetica" font-size="10" font-weight="700">E</text>
+          <text x="13" y="96" text-anchor="middle" fill="#FF2D9A" font-family="-apple-system,Helvetica" font-size="10" font-weight="700">W</text>
+          <polygon points="84,30 81,76 84,74 87,76" fill="#FF2D9A"/>
+          <polygon points="84,154 81,108 84,110 87,108" fill="#5A5A5C"/>
+          <circle cx="84" cy="92" r="3" fill="#FF2D9A"/>
+          <text x="84" y="88" text-anchor="middle" fill="white" font-family="-apple-system,Helvetica" font-size="26" font-weight="300" letter-spacing="-1">10:09</text>
+          <text x="84" y="103" text-anchor="middle" fill="#86868B" font-family="-apple-system,Helvetica" font-size="9">FRI 14</text>
+          <rect x="0" y="0" width="168" height="184" rx="22" fill="none" stroke="#FF2D9A" stroke-width="1" opacity="0.4"/>
+        </svg>
+      </div>
+      <div id="s4-chip" style="position:absolute;transition:transform 1s cubic-bezier(0.34,1.4,0.64,1) 0.6s,opacity 0.5s ease 0.5s;transform:translateY(0) scale(1);opacity:0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="80" height="80" style="filter:drop-shadow(0 4px 16px rgba(255,107,0,0.5))">
+          <defs><linearGradient id="s4chipG" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2C2C2E"/><stop offset="100%" stop-color="#1C1C1E"/></linearGradient></defs>
+          <rect x="20" y="20" width="80" height="80" rx="8" fill="url(#s4chipG)"/>
+          <rect x="20" y="20" width="80" height="80" rx="8" fill="none" stroke="#5A5A5C" stroke-width="1"/>
+          <rect x="30" y="30" width="60" height="60" rx="4" fill="#141414"/>
+          <line x1="35" y1="42" x2="85" y2="42" stroke="#2A2A2C" stroke-width="1"/>
+          <line x1="35" y1="52" x2="85" y2="52" stroke="#2A2A2C" stroke-width="1"/>
+          <line x1="35" y1="78" x2="85" y2="78" stroke="#2A2A2C" stroke-width="1"/>
+          <line x1="42" y1="35" x2="42" y2="85" stroke="#2A2A2C" stroke-width="1"/>
+          <line x1="78" y1="35" x2="78" y2="85" stroke="#2A2A2C" stroke-width="1"/>
+          <text x="60" y="65" text-anchor="middle" fill="white" font-family="-apple-system,Helvetica" font-size="18" font-weight="700" letter-spacing="-1">S10</text>
+          <rect x="26" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
+          <rect x="40" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
+          <rect x="54" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
+          <rect x="68" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
+          <rect x="82" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
+          <rect x="26" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
+          <rect x="40" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
+          <rect x="54" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
+          <rect x="68" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
+          <rect x="82" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
+          <rect x="12" y="26" width="7" height="8" rx="2" fill="#C9A227"/>
+          <rect x="12" y="40" width="7" height="8" rx="2" fill="#C9A227"/>
+          <rect x="12" y="54" width="7" height="8" rx="2" fill="#C9A227"/>
+          <rect x="12" y="68" width="7" height="8" rx="2" fill="#C9A227"/>
+          <rect x="12" y="82" width="7" height="8" rx="2" fill="#C9A227"/>
+          <rect x="101" y="26" width="7" height="8" rx="2" fill="#C9A227"/>
+          <rect x="101" y="40" width="7" height="8" rx="2" fill="#C9A227"/>
+          <rect x="101" y="54" width="7" height="8" rx="2" fill="#C9A227"/>
+          <rect x="101" y="68" width="7" height="8" rx="2" fill="#C9A227"/>
+          <rect x="101" y="82" width="7" height="8" rx="2" fill="#C9A227"/>
+        </svg>
+      </div>
+      </div><!-- end s4-explode-container -->
+      <!-- BELOW is the old faded background watch (now removed) and old chip-hero (also removed) -->
+      <div style="opacity:0.18;position:absolute;top:-10px;transform:scale(0.7);display:none"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" width="220" height="280" style="overflow:visible">
   <!-- OPTIONAL: Replace with real Apple Watch image -->
   <!-- Band stubs -->
   <rect x="72" y="0" width="76" height="42" rx="10" fill="#3D7A9A"/>
@@ -659,61 +729,11 @@ body.edit-mode #reset-btn{display:block}
   <rect x="204" y="108" width="10" height="4" rx="2" fill="#4A4A4C"/>
   <!-- Side Button (right, below crown) -->
   <rect x="202" y="132" width="14" height="22" rx="5" fill="#A0A0A4"/>
-  <!-- Action Button (LEFT side, orange - Ultra signature) -->
-  <rect x="4" y="96" width="14" height="28" rx="5" fill="#FF6B00"/>
-  <rect x="7" y="103" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
-  <rect x="7" y="109" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
-  <rect x="7" y="115" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+  <!-- Action Button: flat press-button, not a rotary crown -->
+  <rect x="2" y="100" width="13" height="20" rx="2" fill="#FF6B00"/>
+  <rect x="2" y="100" width="13" height="20" rx="2" fill="none" stroke="#CC4400" stroke-width="0.8" opacity="0.6"/>
+  <circle cx="8.5" cy="110" r="3" fill="rgba(0,0,0,0.25)"/>
 </svg></div>
-      <div id="chip-hero" style="animation:chipFlyIn 900ms cubic-bezier(0.34,1.56,0.64,1) both 300ms;position:relative;z-index:2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
-  <!-- S10 Chip -->
-  <defs>
-    <linearGradient id="chipGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#2C2C2E"/>
-      <stop offset="100%" stop-color="#1C1C1E"/>
-    </linearGradient>
-  </defs>
-  <!-- Chip body -->
-  <rect x="20" y="20" width="80" height="80" rx="8" fill="url(#chipGrad)"/>
-  <rect x="20" y="20" width="80" height="80" rx="8" fill="none" stroke="#5A5A5C" stroke-width="1"/>
-  <!-- Inner die -->
-  <rect x="30" y="30" width="60" height="60" rx="4" fill="#141414"/>
-  <!-- Circuit traces -->
-  <line x1="35" y1="42" x2="85" y2="42" stroke="#2A2A2C" stroke-width="1"/>
-  <line x1="35" y1="52" x2="85" y2="52" stroke="#2A2A2C" stroke-width="1"/>
-  <line x1="35" y1="78" x2="85" y2="78" stroke="#2A2A2C" stroke-width="1"/>
-  <line x1="42" y1="35" x2="42" y2="85" stroke="#2A2A2C" stroke-width="1"/>
-  <line x1="78" y1="35" x2="78" y2="85" stroke="#2A2A2C" stroke-width="1"/>
-  <!-- S10 text -->
-  <text x="60" y="65" text-anchor="middle" fill="white" font-family="-apple-system,Helvetica" font-size="20" font-weight="700" letter-spacing="-1">S10</text>
-  <!-- Gold contact pads - top -->
-  <rect x="26" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
-  <rect x="40" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
-  <rect x="54" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
-  <rect x="68" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
-  <rect x="82" y="12" width="8" height="7" rx="2" fill="#C9A227"/>
-  <!-- Gold contact pads - bottom -->
-  <rect x="26" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
-  <rect x="40" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
-  <rect x="54" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
-  <rect x="68" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
-  <rect x="82" y="101" width="8" height="7" rx="2" fill="#C9A227"/>
-  <!-- Gold contact pads - left -->
-  <rect x="12" y="26" width="7" height="8" rx="2" fill="#C9A227"/>
-  <rect x="12" y="40" width="7" height="8" rx="2" fill="#C9A227"/>
-  <rect x="12" y="54" width="7" height="8" rx="2" fill="#C9A227"/>
-  <rect x="12" y="68" width="7" height="8" rx="2" fill="#C9A227"/>
-  <rect x="12" y="82" width="7" height="8" rx="2" fill="#C9A227"/>
-  <!-- Gold contact pads - right -->
-  <rect x="101" y="26" width="7" height="8" rx="2" fill="#C9A227"/>
-  <rect x="101" y="40" width="7" height="8" rx="2" fill="#C9A227"/>
-  <rect x="101" y="54" width="7" height="8" rx="2" fill="#C9A227"/>
-  <rect x="101" y="68" width="7" height="8" rx="2" fill="#C9A227"/>
-  <rect x="101" y="82" width="7" height="8" rx="2" fill="#C9A227"/>
-</svg></div>
-      <div style="background:#1C1C1E;border:1px solid #FF6B00;border-radius:12px;padding:10px 20px;text-align:center;position:relative;z-index:2">
-        <span style="color:#FF6B00;font-weight:700;font-size:18px">S10 SiP</span>
-      </div>
     </div>
     <div style="display:flex;flex-direction:column;gap:18px">
       <div class="spec-item anim-slide-right delay-1"><span data-key="s4-spec1">64-bit Dual-Core</span> CPU</div><!-- EDIT -->
@@ -865,11 +885,10 @@ body.edit-mode #reset-btn{display:block}
   <rect x="204" y="108" width="10" height="4" rx="2" fill="#4A4A4C"/>
   <!-- Side Button (right, below crown) -->
   <rect x="202" y="132" width="14" height="22" rx="5" fill="#A0A0A4"/>
-  <!-- Action Button (LEFT side, orange - Ultra signature) -->
-  <rect x="4" y="96" width="14" height="28" rx="5" fill="#FF6B00"/>
-  <rect x="7" y="103" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
-  <rect x="7" y="109" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
-  <rect x="7" y="115" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+  <!-- Action Button: flat press-button, not a rotary crown -->
+  <rect x="2" y="100" width="13" height="20" rx="2" fill="#FF6B00"/>
+  <rect x="2" y="100" width="13" height="20" rx="2" fill="none" stroke="#CC4400" stroke-width="0.8" opacity="0.6"/>
+  <circle cx="8.5" cy="110" r="3" fill="rgba(0,0,0,0.25)"/>
 </svg>
   </div>
   <div class="feature-grid" style="max-width:700px">
@@ -947,11 +966,10 @@ body.edit-mode #reset-btn{display:block}
   <rect x="204" y="108" width="10" height="4" rx="2" fill="#4A4A4C"/>
   <!-- Side Button (right, below crown) -->
   <rect x="202" y="132" width="14" height="22" rx="5" fill="#A0A0A4"/>
-  <!-- Action Button (LEFT side, orange - Ultra signature) -->
-  <rect x="4" y="96" width="14" height="28" rx="5" fill="#FF6B00"/>
-  <rect x="7" y="103" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
-  <rect x="7" y="109" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
-  <rect x="7" y="115" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+  <!-- Action Button: flat press-button, not a rotary crown -->
+  <rect x="2" y="100" width="13" height="20" rx="2" fill="#FF6B00"/>
+  <rect x="2" y="100" width="13" height="20" rx="2" fill="none" stroke="#CC4400" stroke-width="0.8" opacity="0.6"/>
+  <circle cx="8.5" cy="110" r="3" fill="rgba(0,0,0,0.25)"/>
 </svg>
       <div class="battery-container anim-fade-up delay-3">
         <div class="battery-track"><div id="battery-fill" class="battery-fill"></div></div>
@@ -1040,11 +1058,10 @@ body.edit-mode #reset-btn{display:block}
   <rect x="204" y="108" width="10" height="4" rx="2" fill="#4A4A4C"/>
   <!-- Side Button (right, below crown) -->
   <rect x="202" y="132" width="14" height="22" rx="5" fill="#A0A0A4"/>
-  <!-- Action Button (LEFT side, orange - Ultra signature) -->
-  <rect x="4" y="96" width="14" height="28" rx="5" fill="#FF6B00"/>
-  <rect x="7" y="103" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
-  <rect x="7" y="109" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
-  <rect x="7" y="115" width="8" height="2" rx="1" fill="rgba(0,0,0,0.4)"/>
+  <!-- Action Button: flat press-button, not a rotary crown -->
+  <rect x="2" y="100" width="13" height="20" rx="2" fill="#FF6B00"/>
+  <rect x="2" y="100" width="13" height="20" rx="2" fill="none" stroke="#CC4400" stroke-width="0.8" opacity="0.6"/>
+  <circle cx="8.5" cy="110" r="3" fill="rgba(0,0,0,0.25)"/>
 </svg>
   </div>
   <div class="feature-grid" style="max-width:700px">
@@ -1061,59 +1078,72 @@ body.edit-mode #reset-btn{display:block}
   <h1 class="headline anim-fade-up" data-key="s9-headline">Better for the Planet. By Design.</h1><!-- EDIT: sustainability headline -->
   <div class="two-col" style="max-width:1100px;margin-top:20px;align-items:center">
     <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px">
-      <!-- SPINNING GLOBE -->
+      <!-- SPINNING GLOBE (blue ocean + green continents) -->
       <div class="anim-fade-up" style="position:relative">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" width="220" height="220" style="overflow:visible">
           <defs>
             <clipPath id="globe-clip">
               <circle cx="110" cy="110" r="90"/>
             </clipPath>
-            <radialGradient id="globeBg" cx="40%" cy="35%" r="60%">
-              <stop offset="0%" stop-color="#0D1A0D"/>
-              <stop offset="100%" stop-color="#020802"/>
+            <radialGradient id="globeBg" cx="38%" cy="32%" r="65%">
+              <stop offset="0%" stop-color="#1A5FA8"/>
+              <stop offset="55%" stop-color="#0D4A8C"/>
+              <stop offset="100%" stop-color="#082060"/>
             </radialGradient>
           </defs>
-          <!-- Globe background -->
+          <!-- Ocean background -->
           <circle cx="110" cy="110" r="90" fill="url(#globeBg)"/>
-          <!-- Latitude lines (static) -->
-          <g clip-path="url(#globe-clip)" opacity="0.5">
-            <ellipse cx="110" cy="46" rx="30" ry="8" fill="none" stroke="#30D158" stroke-width="0.8"/>
-            <ellipse cx="110" cy="74" rx="72" ry="14" fill="none" stroke="#30D158" stroke-width="0.8"/>
-            <ellipse cx="110" cy="110" rx="90" ry="18" fill="none" stroke="#30D158" stroke-width="1"/>
-            <ellipse cx="110" cy="146" rx="72" ry="14" fill="none" stroke="#30D158" stroke-width="0.8"/>
-            <ellipse cx="110" cy="174" rx="30" ry="8" fill="none" stroke="#30D158" stroke-width="0.8"/>
+          <!-- Latitude lines (static, light blue) -->
+          <g clip-path="url(#globe-clip)" opacity="0.4">
+            <ellipse cx="110" cy="46" rx="30" ry="8" fill="none" stroke="#7EC8E3" stroke-width="0.7"/>
+            <ellipse cx="110" cy="74" rx="72" ry="14" fill="none" stroke="#7EC8E3" stroke-width="0.7"/>
+            <ellipse cx="110" cy="110" rx="90" ry="18" fill="none" stroke="#7EC8E3" stroke-width="0.9"/>
+            <ellipse cx="110" cy="146" rx="72" ry="14" fill="none" stroke="#7EC8E3" stroke-width="0.7"/>
+            <ellipse cx="110" cy="174" rx="30" ry="8" fill="none" stroke="#7EC8E3" stroke-width="0.7"/>
           </g>
-          <!-- Spinning meridians -->
+          <!-- Spinning meridians (light blue) -->
           <g clip-path="url(#globe-clip)">
-            <g opacity="0.6">
-              <animateTransform attributeName="transform" type="rotate" from="0 110 110" to="360 110 110" dur="10s" repeatCount="indefinite"/>
-              <ellipse cx="110" cy="110" rx="18" ry="90" fill="none" stroke="#30D158" stroke-width="0.9"/>
-              <ellipse cx="110" cy="110" rx="52" ry="90" fill="none" stroke="#30D158" stroke-width="0.8"/>
-              <ellipse cx="110" cy="110" rx="78" ry="90" fill="none" stroke="#30D158" stroke-width="0.7"/>
-              <ellipse cx="110" cy="110" rx="90" ry="90" fill="none" stroke="#30D158" stroke-width="0.6"/>
+            <g opacity="0.35">
+              <animateTransform attributeName="transform" type="rotate" from="0 110 110" to="360 110 110" dur="12s" repeatCount="indefinite"/>
+              <ellipse cx="110" cy="110" rx="18" ry="90" fill="none" stroke="#7EC8E3" stroke-width="0.8"/>
+              <ellipse cx="110" cy="110" rx="52" ry="90" fill="none" stroke="#7EC8E3" stroke-width="0.7"/>
+              <ellipse cx="110" cy="110" rx="78" ry="90" fill="none" stroke="#7EC8E3" stroke-width="0.6"/>
+              <ellipse cx="110" cy="110" rx="90" ry="90" fill="none" stroke="#7EC8E3" stroke-width="0.5"/>
             </g>
           </g>
-          <!-- Continent-like hand-drawn blobs -->
-          <g clip-path="url(#globe-clip)" opacity="0.35">
-            <animateTransform attributeName="transform" type="rotate" from="0 110 110" to="360 110 110" dur="10s" repeatCount="indefinite"/>
-            <!-- North America blob -->
-            <path d="M80,62 Q68,70 70,88 Q74,104 86,100 Q96,96 94,82 Q92,68 80,62Z" fill="#30D158"/>
-            <!-- Europe blob -->
-            <path d="M118,58 Q110,62 112,74 Q116,82 126,78 Q132,70 126,60Z" fill="#30D158"/>
-            <!-- Africa blob -->
-            <path d="M120,90 Q114,96 116,116 Q120,130 130,126 Q140,118 136,100 Q132,86 120,90Z" fill="#30D158"/>
-            <!-- Asia blob -->
-            <path d="M134,62 Q126,66 130,80 Q138,88 152,84 Q162,76 156,64 Q148,56 134,62Z" fill="#30D158"/>
+          <!-- Spinning green continents -->
+          <g clip-path="url(#globe-clip)">
+            <g>
+              <animateTransform attributeName="transform" type="rotate" from="0 110 110" to="360 110 110" dur="12s" repeatCount="indefinite"/>
+              <!-- North America -->
+              <path d="M78,58 Q64,68 66,88 Q70,108 84,104 Q98,100 96,80 Q94,62 78,58Z" fill="#2E8B57" opacity="0.9"/>
+              <!-- Central America stub -->
+              <path d="M80,104 Q75,112 78,118 Q82,116 84,108Z" fill="#2E8B57" opacity="0.9"/>
+              <!-- South America -->
+              <path d="M84,118 Q76,128 78,148 Q82,164 94,160 Q106,154 104,136 Q102,120 84,118Z" fill="#2E8B57" opacity="0.9"/>
+              <!-- Europe -->
+              <path d="M116,54 Q108,58 110,70 Q114,80 126,76 Q134,68 128,56Z" fill="#2E8B57" opacity="0.9"/>
+              <!-- Africa -->
+              <path d="M118,86 Q110,94 112,116 Q116,134 128,130 Q140,122 138,104 Q136,88 118,86Z" fill="#2E8B57" opacity="0.9"/>
+              <!-- Asia (large blob) -->
+              <path d="M132,54 Q120,58 124,74 Q132,86 152,84 Q166,78 164,60 Q154,48 132,54Z" fill="#2E8B57" opacity="0.9"/>
+              <!-- Southeast Asia -->
+              <path d="M158,84 Q152,90 154,100 Q160,106 168,100 Q170,92 158,84Z" fill="#2E8B57" opacity="0.8"/>
+              <!-- Australia -->
+              <path d="M154,128 Q144,130 142,144 Q144,156 156,156 Q168,154 168,142 Q168,130 154,128Z" fill="#2E8B57" opacity="0.9"/>
+              <!-- Antarctica cap -->
+              <path d="M68,188 Q110,195 152,188 Q155,196 110,200 Q65,196 68,188Z" fill="#E8E8F0" opacity="0.7"/>
+              <!-- Arctic cap -->
+              <path d="M80,26 Q110,20 140,26 Q138,34 110,36 Q82,34 80,26Z" fill="#E8E8F0" opacity="0.6"/>
+            </g>
           </g>
-          <!-- Globe outline (on top) -->
-          <circle cx="110" cy="110" r="90" fill="none" stroke="#30D158" stroke-width="2"/>
-          <!-- Highlight rim -->
-          <circle cx="110" cy="110" r="90" fill="none" stroke="#30D158" stroke-width="1" opacity="0.2"/>
-          <!-- Subtle glow at top-left -->
-          <circle cx="82" cy="82" r="28" fill="none" stroke="white" stroke-width="1" opacity="0.05"/>
+          <!-- Atmosphere glow ring -->
+          <circle cx="110" cy="110" r="90" fill="none" stroke="#5BA3D9" stroke-width="3" opacity="0.5"/>
+          <!-- Specular highlight -->
+          <ellipse cx="84" cy="76" rx="20" ry="14" fill="white" opacity="0.07"/>
           <!-- Pole dots -->
-          <circle cx="110" cy="20" r="3" fill="#30D158" opacity="0.8"/>
-          <circle cx="110" cy="200" r="3" fill="#30D158" opacity="0.8"/>
+          <circle cx="110" cy="20" r="3" fill="#E8E8F0" opacity="0.7"/>
+          <circle cx="110" cy="200" r="3" fill="#E8E8F0" opacity="0.7"/>
         </svg>
       </div>
       <div class="anim-fade-up delay-1" style="font-size:12px;color:#30D158;letter-spacing:0.08em;text-align:center;opacity:0.7">APPLE 2030</div>
@@ -1211,7 +1241,8 @@ body.edit-mode #reset-btn{display:block}
       <rect x="34" y="56" width="152" height="168" rx="16" fill="#000"/>
       <text x="110" y="150" text-anchor="middle" fill="white" font-family="-apple-system" font-size="30" font-weight="300">9:41</text>
       <rect x="202" y="88" width="14" height="36" rx="6" fill="#A0A0A4" stroke="#C0C0C4" stroke-width="1.5"/>
-      <rect x="4" y="96" width="14" height="28" rx="5" fill="#FF6B00"/>
+      <rect x="2" y="100" width="13" height="20" rx="2" fill="#FF6B00"/>
+      <circle cx="8.5" cy="110" r="3" fill="rgba(0,0,0,0.25)"/>
     </svg>
   </div>
 </div>
@@ -1236,7 +1267,8 @@ body.edit-mode #reset-btn{display:block}
       <rect x="106" y="57" width="8" height="4" rx="2" fill="#FF6B00"/>
       <rect x="106" y="219" width="8" height="4" rx="2" fill="#FF6B00"/>
       <rect x="202" y="88" width="14" height="36" rx="6" fill="#A0A0A4" stroke="#C0C0C4" stroke-width="1.5"/>
-      <rect x="4" y="96" width="14" height="28" rx="5" fill="#FF6B00"/>
+      <rect x="2" y="100" width="13" height="20" rx="2" fill="#FF6B00"/>
+      <circle cx="8.5" cy="110" r="3" fill="rgba(0,0,0,0.25)"/>
     </svg>
   </div>
 </div>
@@ -1329,10 +1361,16 @@ body.edit-mode #reset-btn{display:block}
         countUp(id,target,'%');
       });
     }
-    // Progress bar for slide 10
+    // Progress bar for slide 10 — fill to 60% like battery animation
     if(n===10){
       const fill=document.getElementById('progress-fill');
-      if(fill){fill.style.animation='none';void fill.offsetWidth;fill.style.animation='progressFill 1.5s ease both 400ms forwards';}
+      if(fill){
+        fill.style.transition='none';
+        fill.style.width='0%';
+        void fill.offsetWidth;
+        fill.style.transition='width 2.5s cubic-bezier(0.4,0,0.2,1) 0.4s';
+        fill.style.width='60%';
+      }
     }
     // Slide 7: battery fill animation
     if(n===7){
@@ -1345,11 +1383,11 @@ body.edit-mode #reset-btn{display:block}
         fill.style.width='95%';
       }
     }
-    // Slide 2: 3D exploded animation
-    if(n===2){
-      const watchBody = document.getElementById('s2-watch-body');
-      const screen = document.getElementById('s2-screen');
-      const chip = document.getElementById('s2-chip');
+    // Slide 4: 3D exploded chip animation
+    if(n===4){
+      const watchBody = document.getElementById('s4-watch-body');
+      const screen = document.getElementById('s4-screen');
+      const chip = document.getElementById('s4-chip');
       if(!watchBody||!screen||!chip) return;
       // Reset to initial state
       watchBody.style.transition='none';
@@ -1361,28 +1399,19 @@ body.edit-mode #reset-btn{display:block}
       chip.style.transform='translateY(0) scale(1)';
       chip.style.opacity='0';
       void watchBody.offsetWidth; // force reflow
-      // Phase 1 (0.3s): screen lifts up with 3D tilt
+      // Phase 1: screen lifts up with 3D tilt
       setTimeout(()=>{
         screen.style.transition='transform 0.9s cubic-bezier(0.34,1.2,0.64,1), opacity 0.5s ease';
         screen.style.transform='translateY(-70px) perspective(600px) rotateX(-18deg)';
         screen.style.filter='drop-shadow(0 20px 40px rgba(255,45,154,0.5))';
       },400);
-      // Phase 2 (0.8s): chip flies out
+      // Phase 2: chip flies out from watch body
       setTimeout(()=>{
         chip.style.transition='transform 0.8s cubic-bezier(0.34,1.4,0.64,1), opacity 0.4s ease';
         chip.style.opacity='1';
         chip.style.transform='translateY(30px) scale(1.2)';
         chip.style.filter='drop-shadow(0 8px 24px rgba(255,107,0,0.7))';
       },900);
-      // Phase 3 (1.5s): everything moves to left side
-      setTimeout(()=>{
-        watchBody.style.transition='transform 1s cubic-bezier(0.4,0,0.2,1)';
-        screen.style.transition='transform 1s cubic-bezier(0.4,0,0.2,1)';
-        chip.style.transition='transform 1s cubic-bezier(0.4,0,0.2,1)';
-        watchBody.style.transform='translateX(-90px) translateY(20px)';
-        screen.style.transform='translateX(-90px) translateY(-50px) perspective(600px) rotateX(-18deg)';
-        chip.style.transform='translateX(-90px) translateY(50px) scale(1.1)';
-      },1600);
     }
   }
 
