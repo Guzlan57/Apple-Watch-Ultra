@@ -1392,20 +1392,31 @@ body.edit-mode #reset-btn{display:block}
     let ctx; try{ctx=new AC();}catch(e){return;}
     switch(type){
 
-      case 'swoosh':{ // chip flyout / fast move
-        const buf=ctx.createBuffer(1,Math.floor(ctx.sampleRate*0.45),ctx.sampleRate);
+      case 'swoosh':{ // chip flyout — soft wind, elongated
+        const dur=1.4; // long, airy
+        const buf=ctx.createBuffer(1,Math.floor(ctx.sampleRate*dur),ctx.sampleRate);
         const d=buf.getChannelData(0);
-        for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.exp(-i/d.length*4);
+        // smooth wind: slow amplitude envelope baked into the noise buffer
+        for(let i=0;i<d.length;i++){
+          const t=i/d.length;
+          const env=Math.sin(t*Math.PI)*0.9+0.1; // rises then falls
+          d[i]=(Math.random()*2-1)*env;
+        }
         const src=ctx.createBufferSource(); src.buffer=buf;
-        const f=ctx.createBiquadFilter(); f.type='bandpass';
-        f.frequency.setValueAtTime(2800,ctx.currentTime);
-        f.frequency.exponentialRampToValueAtTime(600,ctx.currentTime+0.38);
-        f.Q.value=1.8;
+        // lowpass → sounds like wind, not hiss
+        const lp=ctx.createBiquadFilter(); lp.type='lowpass';
+        lp.frequency.setValueAtTime(900,ctx.currentTime);
+        lp.frequency.linearRampToValueAtTime(300,ctx.currentTime+dur);
+        lp.Q.value=0.5;
+        // gentle highpass to remove deep rumble
+        const hp=ctx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=120;
         const g=ctx.createGain();
-        g.gain.setValueAtTime(0.38,ctx.currentTime);
-        g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.42);
-        src.connect(f); f.connect(g); g.connect(ctx.destination);
-        src.start(); src.stop(ctx.currentTime+0.5);
+        g.gain.setValueAtTime(0,ctx.currentTime);
+        g.gain.linearRampToValueAtTime(0.18,ctx.currentTime+0.15); // soft attack
+        g.gain.linearRampToValueAtTime(0.12,ctx.currentTime+dur-0.3);
+        g.gain.linearRampToValueAtTime(0,ctx.currentTime+dur);
+        src.connect(lp); lp.connect(hp); hp.connect(g); g.connect(ctx.destination);
+        src.start(); src.stop(ctx.currentTime+dur+0.05);
         break;
       }
 
@@ -1646,101 +1657,4 @@ body.edit-mode #reset-btn{display:block}
   triggerSlideAnimations(1);
 })();
 
-/* ── BACKGROUND MUSIC — upbeat Apple Keynote vibe ──────────────
-   Bright I-V-vi-IV pop progression with rhythmic arpeggios.
-   116 BPM · 4 beats/chord · 8th-note arps · very low master vol.
-   Starts on first user interaction (keyboard or click).
-────────────────────────────────────────────────────────────────*/
-(function(){
-  let started = false;
-
-  function startAmbient(){
-    if(started) return;
-    started = true;
-    const AC = window.AudioContext || window.webkitAudioContext;
-    if(!AC) return;
-    const ctx = new AC();
-
-    // Master bus
-    const master = ctx.createGain();
-    master.gain.value = 0;
-    master.connect(ctx.destination);
-
-    // Short bright reverb (quick room feel, not swimmy)
-    const dly = ctx.createDelay(0.8);
-    const dfb = ctx.createGain();
-    const dwt = ctx.createGain();
-    dly.delayTime.value = 0.18;
-    dfb.gain.value = 0.22;
-    dwt.gain.value = 0.14;
-    dly.connect(dfb); dfb.connect(dly);
-    dly.connect(dwt); dwt.connect(master);
-
-    // 116 BPM
-    const beat   = 60 / 116;         // ~0.517 s / quarter note
-    const CDUR   = beat * 4;          // ~2.07 s / chord
-
-    // I – V – vi – IV  (C – G – Am – F), all in bright upper registers
-    const progression = [
-      // [ bassHz, padHz[], arpHz[] ]
-      [ 130.81, [261.63,329.63,392.00,523.25], [523.25,659.25,783.99,1046.5 ] ], // C
-      [ 196.00, [392.00,493.88,587.33,783.99], [783.99,987.77,1174.66,1567.98] ], // G
-      [ 110.00, [220.00,277.18,329.63,440.00], [440.00,554.37,659.25,880.00 ] ], // Am
-      [ 174.61, [349.23,440.00,523.25,698.46], [698.46,880.00,1046.5,1396.91] ], // F
-    ];
-
-    let head = ctx.currentTime + 0.3;
-    let ci   = 0;
-
-    function pad(freq, t, dur, vol, wave='sine'){
-      const o = ctx.createOscillator(), g = ctx.createGain();
-      o.type = wave; o.frequency.value = freq;
-      o.detune.value = (Math.random()-0.5)*5;
-      g.gain.setValueAtTime(0,t);
-      g.gain.linearRampToValueAtTime(vol, t+0.18);
-      g.gain.setValueAtTime(vol*0.8, t+dur-0.2);
-      g.gain.linearRampToValueAtTime(0, t+dur);
-      o.connect(g); g.connect(master); g.connect(dly);
-      o.start(t); o.stop(t+dur+0.05);
-    }
-
-    function pluck(freq, t){
-      const o = ctx.createOscillator(), g = ctx.createGain();
-      o.type = 'sine'; o.frequency.value = freq;
-      g.gain.setValueAtTime(0,t);
-      g.gain.linearRampToValueAtTime(0.055, t+0.015);
-      g.gain.exponentialRampToValueAtTime(0.001, t+0.28);
-      o.connect(g); g.connect(master); g.connect(dly);
-      o.start(t); o.stop(t+0.3);
-    }
-
-    // 8-step arp pattern per chord (ascending + descending arc)
-    const ARP_PATTERN = [0,1,2,3,2,1,0,2]; // indices into arpHz[]
-
-    function scheduleChunk(){
-      const horizon = ctx.currentTime + 18;
-      while(head < horizon){
-        const [bass, padNotes, arpNotes] = progression[ci % progression.length];
-        // Bass (triangle — warm, punchy)
-        pad(bass, head, CDUR*0.92, 0.28, 'triangle');
-        // Soft chord pad (sine)
-        padNotes.forEach(f => pad(f, head+0.05, CDUR*0.82, 0.028));
-        // Bright arpeggios (8th notes)
-        for(let s=0; s<8; s++){
-          pluck(arpNotes[ARP_PATTERN[s]], head + s*beat*0.5);
-        }
-        head += CDUR;
-        ci++;
-      }
-      setTimeout(scheduleChunk, 12000);
-    }
-
-    // Gentle fade-in (3 s)
-    master.gain.linearRampToValueAtTime(0.072, ctx.currentTime + 3);
-    scheduleChunk();
-  }
-
-  document.addEventListener('keydown', startAmbient, {once:true});
-  document.addEventListener('click',   startAmbient, {once:true});
-})();
 </script>
