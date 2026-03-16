@@ -33,11 +33,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:60px 80px;
   opacity:0;pointer-events:none;
-  transition:opacity 700ms ease;
+  transform:scale(0.97);
+  transition:opacity 650ms cubic-bezier(0.25,0.46,0.45,0.94),transform 650ms cubic-bezier(0.25,0.46,0.45,0.94);
   background:var(--bg);
 }
-.slide.active{opacity:1;pointer-events:all}
-.slide.prev{opacity:0;pointer-events:none}
+.slide.active{opacity:1;transform:scale(1);pointer-events:all}
+.slide.slide-out{opacity:0;transform:scale(1.03);pointer-events:none}
 
 /* ── SLIDE COUNTER ────────────────────────────── */
 #slide-counter{
@@ -175,6 +176,10 @@ body.edit-mode #reset-btn{display:block}
 @keyframes logoFade{
   from{opacity:0;transform:scale(0.8)}
   to{opacity:1;transform:scale(1)}
+}
+@keyframes runnerBounce{
+  from{transform:translateY(0) rotate(-3deg)}
+  to{transform:translateY(-6px) rotate(3deg)}
 }
 
 .anim-fade-up{opacity:0;transform:translateY(30px);transition:opacity 600ms ease,transform 600ms ease}
@@ -1078,37 +1083,36 @@ body.edit-mode #reset-btn{display:block}
   <h1 class="headline anim-fade-up" data-key="s9-headline">Better for the Planet. By Design.</h1><!-- EDIT: sustainability headline -->
   <div class="two-col" style="max-width:1100px;margin-top:20px;align-items:center">
     <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px">
-      <!-- SPINNING GLOBE (blue ocean + green continents) -->
+      <!-- SPINNING GLOBE (Apple 2030 all-green style) -->
       <div class="anim-fade-up" style="position:relative">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" width="220" height="220" style="overflow:visible">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" width="220" height="220" style="overflow:visible;filter:drop-shadow(0 0 18px rgba(48,209,88,0.3))">
           <defs>
             <clipPath id="globe-clip">
               <circle cx="110" cy="110" r="90"/>
             </clipPath>
             <radialGradient id="globeBg" cx="38%" cy="32%" r="65%">
-              <stop offset="0%" stop-color="#1A5FA8"/>
-              <stop offset="55%" stop-color="#0D4A8C"/>
-              <stop offset="100%" stop-color="#082060"/>
+              <stop offset="0%" stop-color="#030D03"/>
+              <stop offset="100%" stop-color="#000800"/>
             </radialGradient>
           </defs>
-          <!-- Ocean background -->
+          <!-- Dark sphere background -->
           <circle cx="110" cy="110" r="90" fill="url(#globeBg)"/>
-          <!-- Latitude lines (static, light blue) -->
-          <g clip-path="url(#globe-clip)" opacity="0.4">
-            <ellipse cx="110" cy="46" rx="30" ry="8" fill="none" stroke="#7EC8E3" stroke-width="0.7"/>
-            <ellipse cx="110" cy="74" rx="72" ry="14" fill="none" stroke="#7EC8E3" stroke-width="0.7"/>
-            <ellipse cx="110" cy="110" rx="90" ry="18" fill="none" stroke="#7EC8E3" stroke-width="0.9"/>
-            <ellipse cx="110" cy="146" rx="72" ry="14" fill="none" stroke="#7EC8E3" stroke-width="0.7"/>
-            <ellipse cx="110" cy="174" rx="30" ry="8" fill="none" stroke="#7EC8E3" stroke-width="0.7"/>
+          <!-- Latitude lines (static, green) -->
+          <g clip-path="url(#globe-clip)" opacity="0.35">
+            <ellipse cx="110" cy="46" rx="30" ry="8" fill="none" stroke="#30D158" stroke-width="0.7"/>
+            <ellipse cx="110" cy="74" rx="72" ry="14" fill="none" stroke="#30D158" stroke-width="0.7"/>
+            <ellipse cx="110" cy="110" rx="90" ry="18" fill="none" stroke="#30D158" stroke-width="0.9"/>
+            <ellipse cx="110" cy="146" rx="72" ry="14" fill="none" stroke="#30D158" stroke-width="0.7"/>
+            <ellipse cx="110" cy="174" rx="30" ry="8" fill="none" stroke="#30D158" stroke-width="0.7"/>
           </g>
-          <!-- Spinning meridians (light blue) -->
+          <!-- Spinning meridians (green) -->
           <g clip-path="url(#globe-clip)">
-            <g opacity="0.35">
+            <g opacity="0.3">
               <animateTransform attributeName="transform" type="rotate" from="0 110 110" to="360 110 110" dur="12s" repeatCount="indefinite"/>
-              <ellipse cx="110" cy="110" rx="18" ry="90" fill="none" stroke="#7EC8E3" stroke-width="0.8"/>
-              <ellipse cx="110" cy="110" rx="52" ry="90" fill="none" stroke="#7EC8E3" stroke-width="0.7"/>
-              <ellipse cx="110" cy="110" rx="78" ry="90" fill="none" stroke="#7EC8E3" stroke-width="0.6"/>
-              <ellipse cx="110" cy="110" rx="90" ry="90" fill="none" stroke="#7EC8E3" stroke-width="0.5"/>
+              <ellipse cx="110" cy="110" rx="18" ry="90" fill="none" stroke="#30D158" stroke-width="0.8"/>
+              <ellipse cx="110" cy="110" rx="52" ry="90" fill="none" stroke="#30D158" stroke-width="0.7"/>
+              <ellipse cx="110" cy="110" rx="78" ry="90" fill="none" stroke="#30D158" stroke-width="0.6"/>
+              <ellipse cx="110" cy="110" rx="90" ry="90" fill="none" stroke="#30D158" stroke-width="0.5"/>
             </g>
           </g>
           <!-- Spinning green continents -->
@@ -1116,34 +1120,33 @@ body.edit-mode #reset-btn{display:block}
             <g>
               <animateTransform attributeName="transform" type="rotate" from="0 110 110" to="360 110 110" dur="12s" repeatCount="indefinite"/>
               <!-- North America -->
-              <path d="M78,58 Q64,68 66,88 Q70,108 84,104 Q98,100 96,80 Q94,62 78,58Z" fill="#2E8B57" opacity="0.9"/>
+              <path d="M78,58 Q64,68 66,88 Q70,108 84,104 Q98,100 96,80 Q94,62 78,58Z" fill="#30D158" opacity="0.9"/>
               <!-- Central America stub -->
-              <path d="M80,104 Q75,112 78,118 Q82,116 84,108Z" fill="#2E8B57" opacity="0.9"/>
+              <path d="M80,104 Q75,112 78,118 Q82,116 84,108Z" fill="#30D158" opacity="0.9"/>
               <!-- South America -->
-              <path d="M84,118 Q76,128 78,148 Q82,164 94,160 Q106,154 104,136 Q102,120 84,118Z" fill="#2E8B57" opacity="0.9"/>
+              <path d="M84,118 Q76,128 78,148 Q82,164 94,160 Q106,154 104,136 Q102,120 84,118Z" fill="#30D158" opacity="0.9"/>
               <!-- Europe -->
-              <path d="M116,54 Q108,58 110,70 Q114,80 126,76 Q134,68 128,56Z" fill="#2E8B57" opacity="0.9"/>
+              <path d="M116,54 Q108,58 110,70 Q114,80 126,76 Q134,68 128,56Z" fill="#30D158" opacity="0.9"/>
               <!-- Africa -->
-              <path d="M118,86 Q110,94 112,116 Q116,134 128,130 Q140,122 138,104 Q136,88 118,86Z" fill="#2E8B57" opacity="0.9"/>
+              <path d="M118,86 Q110,94 112,116 Q116,134 128,130 Q140,122 138,104 Q136,88 118,86Z" fill="#30D158" opacity="0.9"/>
               <!-- Asia (large blob) -->
-              <path d="M132,54 Q120,58 124,74 Q132,86 152,84 Q166,78 164,60 Q154,48 132,54Z" fill="#2E8B57" opacity="0.9"/>
+              <path d="M132,54 Q120,58 124,74 Q132,86 152,84 Q166,78 164,60 Q154,48 132,54Z" fill="#30D158" opacity="0.9"/>
               <!-- Southeast Asia -->
-              <path d="M158,84 Q152,90 154,100 Q160,106 168,100 Q170,92 158,84Z" fill="#2E8B57" opacity="0.8"/>
+              <path d="M158,84 Q152,90 154,100 Q160,106 168,100 Q170,92 158,84Z" fill="#30D158" opacity="0.8"/>
               <!-- Australia -->
-              <path d="M154,128 Q144,130 142,144 Q144,156 156,156 Q168,154 168,142 Q168,130 154,128Z" fill="#2E8B57" opacity="0.9"/>
+              <path d="M154,128 Q144,130 142,144 Q144,156 156,156 Q168,154 168,142 Q168,130 154,128Z" fill="#30D158" opacity="0.9"/>
               <!-- Antarctica cap -->
-              <path d="M68,188 Q110,195 152,188 Q155,196 110,200 Q65,196 68,188Z" fill="#E8E8F0" opacity="0.7"/>
+              <path d="M68,188 Q110,195 152,188 Q155,196 110,200 Q65,196 68,188Z" fill="#30D158" opacity="0.5"/>
               <!-- Arctic cap -->
-              <path d="M80,26 Q110,20 140,26 Q138,34 110,36 Q82,34 80,26Z" fill="#E8E8F0" opacity="0.6"/>
+              <path d="M80,26 Q110,20 140,26 Q138,34 110,36 Q82,34 80,26Z" fill="#30D158" opacity="0.45"/>
             </g>
           </g>
-          <!-- Atmosphere glow ring -->
-          <circle cx="110" cy="110" r="90" fill="none" stroke="#5BA3D9" stroke-width="3" opacity="0.5"/>
-          <!-- Specular highlight -->
-          <ellipse cx="84" cy="76" rx="20" ry="14" fill="white" opacity="0.07"/>
-          <!-- Pole dots -->
-          <circle cx="110" cy="20" r="3" fill="#E8E8F0" opacity="0.7"/>
-          <circle cx="110" cy="200" r="3" fill="#E8E8F0" opacity="0.7"/>
+          <!-- Green atmosphere glow ring -->
+          <circle cx="110" cy="110" r="90" fill="none" stroke="#4CD964" stroke-width="2.5" opacity="0.5"/>
+          <!-- Subtle specular highlight -->
+          <ellipse cx="84" cy="76" rx="20" ry="14" fill="#30D158" opacity="0.04"/>
+          <!-- Green circle outline -->
+          <circle cx="110" cy="110" r="90" fill="none" stroke="#30D158" stroke-width="1" opacity="0.25"/>
         </svg>
       </div>
       <div class="anim-fade-up delay-1" style="font-size:12px;color:#30D158;letter-spacing:0.08em;text-align:center;opacity:0.7">APPLE 2030</div>
@@ -1247,14 +1250,85 @@ body.edit-mode #reset-btn{display:block}
   </div>
 </div>
 
-<!-- SLIDE 12: Closing -->
+<!-- SLIDE 12: Fitness -->
 <div class="slide" id="slide-12">
-  <div style="animation:logoFade 1s ease both 200ms">
-    <span style="font-size:clamp(80px,12vw,140px);line-height:1;display:block;text-align:center" data-key="s12-logo"> </span>
+  <h1 class="headline anim-fade-up" data-key="s12-headline">Built for Every Workout.</h1>
+  <div class="two-col" style="max-width:1100px;margin-top:24px;align-items:center">
+    <!-- LEFT: Activity Rings + Runner -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:28px">
+      <!-- Activity Rings SVG -->
+      <div class="anim-fade-up delay-1" style="position:relative">
+        <svg id="rings-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" width="200" height="200">
+          <!-- Black background -->
+          <circle cx="110" cy="110" r="108" fill="#000"/>
+          <!-- Track rings (dark) -->
+          <circle cx="110" cy="110" r="88" fill="none" stroke="#1C1C1E" stroke-width="18"/>
+          <circle cx="110" cy="110" r="64" fill="none" stroke="#1C1C1E" stroke-width="18"/>
+          <circle cx="110" cy="110" r="40" fill="none" stroke="#1C1C1E" stroke-width="18"/>
+          <!-- Move ring (outer, pink) -->
+          <circle id="ring-move" cx="110" cy="110" r="88" fill="none" stroke="#FF2D55" stroke-width="18" stroke-linecap="round"
+            stroke-dasharray="552.92" stroke-dashoffset="552.92"
+            transform="rotate(-90 110 110)"/>
+          <!-- Exercise ring (middle, green) -->
+          <circle id="ring-exercise" cx="110" cy="110" r="64" fill="none" stroke="#30D158" stroke-width="18" stroke-linecap="round"
+            stroke-dasharray="402.12" stroke-dashoffset="402.12"
+            transform="rotate(-90 110 110)"/>
+          <!-- Stand ring (inner, cyan) -->
+          <circle id="ring-stand" cx="110" cy="110" r="40" fill="none" stroke="#5AC8FA" stroke-width="18" stroke-linecap="round"
+            stroke-dasharray="251.33" stroke-dashoffset="251.33"
+            transform="rotate(-90 110 110)"/>
+        </svg>
+      </div>
+      <!-- Running Figure -->
+      <div class="anim-fade-up delay-2" style="position:relative">
+        <div id="runner-container" style="width:90px;height:90px;border-radius:50%;background:#AAFF00;display:flex;align-items:center;justify-content:center;overflow:visible">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" width="60" height="60">
+            <!-- Head -->
+            <circle cx="30" cy="9" r="6" fill="#1A1A1A"/>
+            <!-- Body -->
+            <line x1="30" y1="15" x2="30" y2="32" stroke="#1A1A1A" stroke-width="4" stroke-linecap="round"/>
+            <!-- Left arm (forward) -->
+            <line id="arm-l" x1="30" y1="19" x2="18" y2="28" stroke="#1A1A1A" stroke-width="3.5" stroke-linecap="round"/>
+            <!-- Right arm (back) -->
+            <line id="arm-r" x1="30" y1="19" x2="42" y2="24" stroke="#1A1A1A" stroke-width="3.5" stroke-linecap="round"/>
+            <!-- Left leg (forward stride) -->
+            <line id="leg-l" x1="30" y1="32" x2="18" y2="46" stroke="#1A1A1A" stroke-width="3.5" stroke-linecap="round"/>
+            <line id="shin-l" x1="18" y1="46" x2="14" y2="56" stroke="#1A1A1A" stroke-width="3.5" stroke-linecap="round"/>
+            <!-- Right leg (back push) -->
+            <line id="leg-r" x1="30" y1="32" x2="42" y2="44" stroke="#1A1A1A" stroke-width="3.5" stroke-linecap="round"/>
+            <line id="shin-r" x1="42" y1="44" x2="46" y2="52" stroke="#1A1A1A" stroke-width="3.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- RIGHT: Features -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="stat-label anim-slide-right delay-1" data-key="s12-feat1">&#9670; Workout Buddy — AI Pacing</div>
+      <div class="stat-label anim-slide-right delay-2" data-key="s12-feat2">&#9670; 40+ Workout Types</div>
+      <div class="stat-label anim-slide-right delay-3" data-key="s12-feat3">&#9670; Move, Exercise &amp; Stand Rings</div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px">
+        <div class="spec-item anim-fade-up delay-3"><span>Heart Rate</span> zones</div>
+        <div class="spec-item anim-fade-up delay-3"><span>Power Output</span> watts</div>
+        <div class="spec-item anim-fade-up delay-4"><span>Stride Length</span> &amp; cadence</div>
+        <div class="spec-item anim-fade-up delay-4"><span>VO₂ Max</span> estimate</div>
+        <div class="spec-item anim-fade-up delay-5"><span>Elevation</span> gain</div>
+        <div class="spec-item anim-fade-up delay-5"><span>GPS Route</span> mapping</div>
+      </div>
+      <p class="spec-item anim-fade-up delay-6" style="line-height:1.6;margin-top:8px" data-key="s12-desc">
+        From open-water swimming to ultra-trail running — every metric tracked, every milestone celebrated.
+      </p>
+    </div>
   </div>
-  <h1 style="font-size:clamp(48px,7vw,96px);font-weight:300;letter-spacing:-0.02em;margin-top:20px;animation:fadeUp 800ms ease both 400ms" data-key="s12-thankyou">Thank You</h1><!-- EDIT: thank you text -->
-  <p style="font-size:clamp(20px,2.5vw,32px);color:#86868B;margin-top:12px;animation:fadeUp 800ms ease both 600ms" data-key="s12-questions">Questions?</p><!-- EDIT: questions text -->
-  <p style="font-size:clamp(14px,1.5vw,18px);color:#3A3A3C;margin-top:32px;letter-spacing:0.05em;animation:fadeUp 800ms ease both 800ms" data-key="s12-tagline">Apple Watch Ultra 3 &mdash; Adventure Responsibly.</p><!-- EDIT: closing tagline -->
+</div>
+
+<!-- SLIDE 13: Closing -->
+<div class="slide" id="slide-13">
+  <div style="animation:logoFade 1s ease both 200ms">
+    <span style="font-size:clamp(80px,12vw,140px);line-height:1;display:block;text-align:center" data-key="s13-logo"> </span>
+  </div>
+  <h1 style="font-size:clamp(48px,7vw,96px);font-weight:300;letter-spacing:-0.02em;margin-top:20px;animation:fadeUp 800ms ease both 400ms" data-key="s13-thankyou">Thank You</h1><!-- EDIT: thank you text -->
+  <p style="font-size:clamp(20px,2.5vw,32px);color:#86868B;margin-top:12px;animation:fadeUp 800ms ease both 600ms" data-key="s13-questions">Questions?</p><!-- EDIT: questions text -->
+  <p style="font-size:clamp(14px,1.5vw,18px);color:#3A3A3C;margin-top:32px;letter-spacing:0.05em;animation:fadeUp 800ms ease both 800ms" data-key="s13-tagline">Apple Watch Ultra 3 &mdash; Adventure Responsibly.</p><!-- EDIT: closing tagline -->
   <div style="margin-top:30px;animation:watchRotate 12s ease-in-out infinite,watchFadeIn 1s ease both 1000ms">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" width="130" height="165">
       <rect x="72" y="0" width="76" height="42" rx="10" fill="#3D7A9A"/>
@@ -1277,7 +1351,7 @@ body.edit-mode #reset-btn{display:block}
 
 <script>
 (function(){
-  const TOTAL = 12;
+  const TOTAL = 13;
   let current = 1;
   let editMode = false;
 
@@ -1297,7 +1371,10 @@ body.edit-mode #reset-btn{display:block}
 
   function goTo(n){
     if(n<1||n>TOTAL)return;
-    document.querySelector('#slide-'+current).classList.remove('active');
+    const outSlide=document.querySelector('#slide-'+current);
+    outSlide.classList.remove('active');
+    outSlide.classList.add('slide-out');
+    setTimeout(()=>outSlide.classList.remove('slide-out'),700);
     document.querySelectorAll('.thumb')[current-1].classList.remove('active-thumb');
     current=n;
     document.querySelector('#slide-'+current).classList.add('active');
@@ -1381,6 +1458,47 @@ body.edit-mode #reset-btn{display:block}
         void fill.offsetWidth;
         fill.style.transition='width 2.5s cubic-bezier(0.4,0,0.2,1) 0.4s';
         fill.style.width='95%';
+      }
+    }
+    if(n===12){
+      // Reset and animate activity rings
+      const ringData = [
+        {id:'ring-move', c:552.92, delay:400},
+        {id:'ring-exercise', c:402.12, delay:900},
+        {id:'ring-stand', c:251.33, delay:1400},
+      ];
+      ringData.forEach(({id,c,delay})=>{
+        const el=document.getElementById(id);
+        if(!el) return;
+        el.style.transition='none';
+        el.style.strokeDashoffset=c;
+        void el.getBoundingClientRect();
+        setTimeout(()=>{
+          el.style.transition=`stroke-dashoffset 1.3s cubic-bezier(0.4,0,0.2,1)`;
+          el.style.strokeDashoffset='0';
+        },delay);
+      });
+      // Play ring completion chime
+      setTimeout(()=>{
+        try{
+          const ctx=new(window.AudioContext||window.webkitAudioContext)();
+          [[523.25,0],[659.25,0.18],[783.99,0.36],[1046.5,0.54]].forEach(([freq,t])=>{
+            const o=ctx.createOscillator(),g=ctx.createGain();
+            o.connect(g);g.connect(ctx.destination);
+            o.frequency.value=freq;o.type='sine';
+            g.gain.setValueAtTime(0,ctx.currentTime+t);
+            g.gain.linearRampToValueAtTime(0.22,ctx.currentTime+t+0.06);
+            g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+t+0.45);
+            o.start(ctx.currentTime+t);o.stop(ctx.currentTime+t+0.5);
+          });
+        }catch(e){}
+      },2900);
+      // Running figure bounce animation
+      const rc=document.getElementById('runner-container');
+      if(rc){
+        rc.style.animation='none';
+        void rc.offsetWidth;
+        rc.style.animation='runnerBounce 0.5s ease-in-out infinite alternate';
       }
     }
     // Slide 4: 3D exploded chip animation
