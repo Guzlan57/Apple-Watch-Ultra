@@ -1448,24 +1448,39 @@ body.edit-mode #reset-btn{display:block}
         break;
       }
 
-      case 'charging':{ // battery slide — electric rise + click
-        const o=ctx.createOscillator(),f=ctx.createBiquadFilter(),g=ctx.createGain();
-        o.type='sawtooth';
-        o.frequency.setValueAtTime(55,ctx.currentTime);
-        o.frequency.linearRampToValueAtTime(220,ctx.currentTime+0.7);
-        f.type='lowpass'; f.frequency.value=500;
-        g.gain.setValueAtTime(0.16,ctx.currentTime);
-        g.gain.linearRampToValueAtTime(0.07,ctx.currentTime+0.7);
-        g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.95);
-        o.connect(f); f.connect(g); g.connect(ctx.destination);
-        o.start(); o.stop(ctx.currentTime+1.0);
-        // confirmation click
-        const o2=ctx.createOscillator(),g2=ctx.createGain();
-        o2.type='sine'; o2.frequency.value=1400;
-        g2.gain.setValueAtTime(0.14,ctx.currentTime+0.72);
-        g2.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.85);
-        o2.connect(g2); g2.connect(ctx.destination);
-        o2.start(ctx.currentTime+0.72); o2.stop(ctx.currentTime+0.88);
+      case 'charging':{ // battery — rising power-up + bar ticks + full chime
+        // 1. Smooth rising electric hum (triangle = clean, not buzzy/farty)
+        const oh=ctx.createOscillator(),gh=ctx.createGain();
+        oh.type='triangle';
+        oh.frequency.setValueAtTime(200,ctx.currentTime);
+        oh.frequency.exponentialRampToValueAtTime(880,ctx.currentTime+2.2);
+        gh.gain.setValueAtTime(0,ctx.currentTime);
+        gh.gain.linearRampToValueAtTime(0.10,ctx.currentTime+0.12);
+        gh.gain.linearRampToValueAtTime(0.07,ctx.currentTime+2.0);
+        gh.gain.linearRampToValueAtTime(0,ctx.currentTime+2.3);
+        oh.connect(gh); gh.connect(ctx.destination);
+        oh.start(); oh.stop(ctx.currentTime+2.4);
+        // 2. Five ascending "bar" ticks — one per 20% of the fill
+        [0.25,0.65,1.05,1.45,1.85].forEach((t,i)=>{
+          const ob=ctx.createOscillator(),gb=ctx.createGain();
+          ob.type='sine'; ob.frequency.value=700+i*220;
+          gb.gain.setValueAtTime(0,ctx.currentTime+t);
+          gb.gain.linearRampToValueAtTime(0.16,ctx.currentTime+t+0.018);
+          gb.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+t+0.18);
+          ob.connect(gb); gb.connect(ctx.destination);
+          ob.start(ctx.currentTime+t); ob.stop(ctx.currentTime+t+0.2);
+        });
+        // 3. Satisfying "full" two-tone chime at end
+        [1760,2217].forEach((hz,i)=>{
+          const oc=ctx.createOscillator(),gc=ctx.createGain();
+          oc.type='sine'; oc.frequency.value=hz;
+          const t=ctx.currentTime+2.15+i*0.10;
+          gc.gain.setValueAtTime(0,t);
+          gc.gain.linearRampToValueAtTime(0.18,t+0.03);
+          gc.gain.exponentialRampToValueAtTime(0.001,t+0.55);
+          oc.connect(gc); gc.connect(ctx.destination);
+          oc.start(t); oc.stop(t+0.6);
+        });
         break;
       }
 
