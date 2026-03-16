@@ -1385,8 +1385,150 @@ body.edit-mode #reset-btn{display:block}
     if(saved) el.innerHTML=saved;
   });
 
+  // ── SLIDE SOUND EFFECTS ──────────────────────────────────────────
+  function playSound(type){
+    const AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC) return;
+    let ctx; try{ctx=new AC();}catch(e){return;}
+    switch(type){
+
+      case 'swoosh':{ // chip flyout / fast move
+        const buf=ctx.createBuffer(1,Math.floor(ctx.sampleRate*0.45),ctx.sampleRate);
+        const d=buf.getChannelData(0);
+        for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.exp(-i/d.length*4);
+        const src=ctx.createBufferSource(); src.buffer=buf;
+        const f=ctx.createBiquadFilter(); f.type='bandpass';
+        f.frequency.setValueAtTime(2800,ctx.currentTime);
+        f.frequency.exponentialRampToValueAtTime(600,ctx.currentTime+0.38);
+        f.Q.value=1.8;
+        const g=ctx.createGain();
+        g.gain.setValueAtTime(0.38,ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.42);
+        src.connect(f); f.connect(g); g.connect(ctx.destination);
+        src.start(); src.stop(ctx.currentTime+0.5);
+        break;
+      }
+
+      case 'signal':{ // connectivity pings — ascending tech beeps
+        [880,1174.66,1396.91,1760].forEach((hz,i)=>{
+          const o=ctx.createOscillator(),g=ctx.createGain();
+          o.type='sine'; o.frequency.value=hz;
+          const t=ctx.currentTime+i*0.16;
+          g.gain.setValueAtTime(0,t);
+          g.gain.linearRampToValueAtTime(0.22,t+0.03);
+          g.gain.exponentialRampToValueAtTime(0.001,t+0.28);
+          o.connect(g); g.connect(ctx.destination);
+          o.start(t); o.stop(t+0.32);
+        });
+        break;
+      }
+
+      case 'heartbeat':{ // health slide — dual thump
+        [0,0.38].forEach(off=>{
+          const o=ctx.createOscillator(),g=ctx.createGain();
+          o.type='sine';
+          o.frequency.setValueAtTime(88,ctx.currentTime+off);
+          o.frequency.exponentialRampToValueAtTime(38,ctx.currentTime+off+0.18);
+          g.gain.setValueAtTime(0.42,ctx.currentTime+off);
+          g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+off+0.22);
+          o.connect(g); g.connect(ctx.destination);
+          o.start(ctx.currentTime+off); o.stop(ctx.currentTime+off+0.25);
+        });
+        break;
+      }
+
+      case 'charging':{ // battery slide — electric rise + click
+        const o=ctx.createOscillator(),f=ctx.createBiquadFilter(),g=ctx.createGain();
+        o.type='sawtooth';
+        o.frequency.setValueAtTime(55,ctx.currentTime);
+        o.frequency.linearRampToValueAtTime(220,ctx.currentTime+0.7);
+        f.type='lowpass'; f.frequency.value=500;
+        g.gain.setValueAtTime(0.16,ctx.currentTime);
+        g.gain.linearRampToValueAtTime(0.07,ctx.currentTime+0.7);
+        g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.95);
+        o.connect(f); f.connect(g); g.connect(ctx.destination);
+        o.start(); o.stop(ctx.currentTime+1.0);
+        // confirmation click
+        const o2=ctx.createOscillator(),g2=ctx.createGain();
+        o2.type='sine'; o2.frequency.value=1400;
+        g2.gain.setValueAtTime(0.14,ctx.currentTime+0.72);
+        g2.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.85);
+        o2.connect(g2); g2.connect(ctx.destination);
+        o2.start(ctx.currentTime+0.72); o2.stop(ctx.currentTime+0.88);
+        break;
+      }
+
+      case 'chime':{ // achievement / Apple 2030
+        [1046.5,1318.51,1567.98,2093].forEach((hz,i)=>{
+          const o=ctx.createOscillator(),g=ctx.createGain();
+          o.type='sine'; o.frequency.value=hz;
+          const t=ctx.currentTime+i*0.11;
+          g.gain.setValueAtTime(0,t);
+          g.gain.linearRampToValueAtTime(0.18,t+0.04);
+          g.gain.exponentialRampToValueAtTime(0.001,t+0.55);
+          o.connect(g); g.connect(ctx.destination);
+          o.start(t); o.stop(t+0.6);
+        });
+        break;
+      }
+
+      case 'water':{ // adventure / ocean slide — gentle ripple tones
+        [320,427,640,853].forEach((hz,i)=>{
+          const o=ctx.createOscillator(),g=ctx.createGain();
+          o.type='sine'; o.frequency.value=hz;
+          o.frequency.linearRampToValueAtTime(hz*0.92,ctx.currentTime+0.6);
+          const t=ctx.currentTime+i*0.09;
+          g.gain.setValueAtTime(0,t);
+          g.gain.linearRampToValueAtTime(0.12,t+0.06);
+          g.gain.exponentialRampToValueAtTime(0.001,t+0.55);
+          o.connect(g); g.connect(ctx.destination);
+          o.start(t); o.stop(t+0.65);
+        });
+        // add white-noise splash
+        const nb=ctx.createBuffer(1,Math.floor(ctx.sampleRate*0.4),ctx.sampleRate);
+        const nd=nb.getChannelData(0);
+        for(let i=0;i<nd.length;i++) nd[i]=(Math.random()*2-1)*Math.exp(-i/nd.length*6);
+        const ns=ctx.createBufferSource(); ns.buffer=nb;
+        const nf=ctx.createBiquadFilter(); nf.type='bandpass'; nf.frequency.value=1200; nf.Q.value=0.8;
+        const ng=ctx.createGain(); ng.gain.value=0.1;
+        ns.connect(nf); nf.connect(ng); ng.connect(ctx.destination);
+        ns.start(); ns.stop(ctx.currentTime+0.45);
+        break;
+      }
+
+      case 'whoosh':{ // subtle nav whoosh (not currently auto-called, available)
+        const buf=ctx.createBuffer(1,Math.floor(ctx.sampleRate*0.25),ctx.sampleRate);
+        const d=buf.getChannelData(0);
+        for(let i=0;i<d.length;i++) d[i]=Math.random()*2-1;
+        const src=ctx.createBufferSource(); src.buffer=buf;
+        const f=ctx.createBiquadFilter(); f.type='bandpass';
+        f.frequency.setValueAtTime(700,ctx.currentTime);
+        f.frequency.exponentialRampToValueAtTime(180,ctx.currentTime+0.25);
+        f.Q.value=2;
+        const g=ctx.createGain();
+        g.gain.setValueAtTime(0.1,ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.25);
+        src.connect(f); f.connect(g); g.connect(ctx.destination);
+        src.start(); src.stop(ctx.currentTime+0.3);
+        break;
+      }
+    }
+  }
+
   // Slide-specific animations
   function triggerSlideAnimations(n){
+    // Per-slide sound effects
+    const _sfx={
+      4:()=>setTimeout(()=>playSound('swoosh'),920),   // chip flies out
+      5:()=>setTimeout(()=>playSound('heartbeat'),500), // health sensors
+      6:()=>setTimeout(()=>playSound('signal'),400),    // connectivity pings
+      7:()=>setTimeout(()=>playSound('charging'),700),  // battery charge
+      8:()=>setTimeout(()=>playSound('water'),300),     // adventure/ocean
+      10:()=>setTimeout(()=>playSound('chime'),500),    // Apple 2030 achievement
+      13:()=>setTimeout(()=>playSound('chime'),600),    // closing chime
+    };
+    if(_sfx[n]) _sfx[n]();
+
     // Count-up for slide 9
     if(n===9){
       [['s9-n1',80],['s9-n2',100],['s9-n3',100],['s9-n4',100],['s9-n5',100]].forEach(([id,target])=>{
@@ -1504,10 +1646,10 @@ body.edit-mode #reset-btn{display:block}
   triggerSlideAnimations(1);
 })();
 
-/* ── BACKGROUND AMBIENT MUSIC ──────────────────────────────────
-   Apple Keynote-style: soft ambient chords, very low volume.
+/* ── BACKGROUND MUSIC — upbeat Apple Keynote vibe ──────────────
+   Bright I-V-vi-IV pop progression with rhythmic arpeggios.
+   116 BPM · 4 beats/chord · 8th-note arps · very low master vol.
    Starts on first user interaction (keyboard or click).
-   Uses Web Audio API — no external files needed.
 ────────────────────────────────────────────────────────────────*/
 (function(){
   let started = false;
@@ -1515,84 +1657,90 @@ body.edit-mode #reset-btn{display:block}
   function startAmbient(){
     if(started) return;
     started = true;
-
     const AC = window.AudioContext || window.webkitAudioContext;
     if(!AC) return;
     const ctx = new AC();
 
-    // Master volume — very subtle (6%)
+    // Master bus
     const master = ctx.createGain();
     master.gain.value = 0;
     master.connect(ctx.destination);
 
-    // Soft reverb via convolver approximation using delay+feedback
-    const delay = ctx.createDelay(2.5);
-    const fb    = ctx.createGain();
-    const wet   = ctx.createGain();
-    delay.delayTime.value = 0.45;
-    fb.gain.value  = 0.35;
-    wet.gain.value = 0.28;
-    delay.connect(fb);
-    fb.connect(delay);
-    delay.connect(wet);
-    wet.connect(master);
+    // Short bright reverb (quick room feel, not swimmy)
+    const dly = ctx.createDelay(0.8);
+    const dfb = ctx.createGain();
+    const dwt = ctx.createGain();
+    dly.delayTime.value = 0.18;
+    dfb.gain.value = 0.22;
+    dwt.gain.value = 0.14;
+    dly.connect(dfb); dfb.connect(dly);
+    dly.connect(dwt); dwt.connect(master);
 
-    // Chord progression (pentatonic-friendly, major feel)
-    // Each entry: [bass Hz, ...mid/high Hz]
-    const chords = [
-      [130.81, 261.63, 329.63, 392.00, 523.25], // C2 + C4 E4 G4 C5
-      [174.61, 349.23, 440.00, 523.25, 659.25], // F2 + F4 A4 C5 E5
-      [110.00, 220.00, 261.63, 329.63, 440.00], // A2 + A3 C4 E4 A4
-      [196.00, 392.00, 493.88, 587.33, 783.99], // G2 + G4 B4 D5 G5
+    // 116 BPM
+    const beat   = 60 / 116;         // ~0.517 s / quarter note
+    const CDUR   = beat * 4;          // ~2.07 s / chord
+
+    // I – V – vi – IV  (C – G – Am – F), all in bright upper registers
+    const progression = [
+      // [ bassHz, padHz[], arpHz[] ]
+      [ 130.81, [261.63,329.63,392.00,523.25], [523.25,659.25,783.99,1046.5 ] ], // C
+      [ 196.00, [392.00,493.88,587.33,783.99], [783.99,987.77,1174.66,1567.98] ], // G
+      [ 110.00, [220.00,277.18,329.63,440.00], [440.00,554.37,659.25,880.00 ] ], // Am
+      [ 174.61, [349.23,440.00,523.25,698.46], [698.46,880.00,1046.5,1396.91] ], // F
     ];
 
-    const CHORD_DUR  = 7;   // seconds per chord
-    const ATTACK     = 1.8; // fade in
-    const RELEASE    = 1.4; // fade out per note
-    let scheduleHead = ctx.currentTime + 1.0;
-    let chordIdx     = 0;
+    let head = ctx.currentTime + 0.3;
+    let ci   = 0;
 
-    function scheduleNote(freq, t, dur, vol){
-      const osc = ctx.createOscillator();
-      const g   = ctx.createGain();
-      osc.type = freq < 200 ? 'triangle' : 'sine'; // triangle bass, sine highs
-      osc.frequency.value = freq;
-      // Gentle detune for warmth
-      osc.detune.value = (Math.random() - 0.5) * 4;
-      g.gain.setValueAtTime(0, t);
-      g.gain.linearRampToValueAtTime(vol, t + ATTACK);
-      g.gain.setValueAtTime(vol, t + dur - RELEASE);
-      g.gain.linearRampToValueAtTime(0, t + dur);
-      osc.connect(g);
-      g.connect(master);
-      g.connect(delay); // send to reverb
-      osc.start(t);
-      osc.stop(t + dur + 0.1);
+    function pad(freq, t, dur, vol, wave='sine'){
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = wave; o.frequency.value = freq;
+      o.detune.value = (Math.random()-0.5)*5;
+      g.gain.setValueAtTime(0,t);
+      g.gain.linearRampToValueAtTime(vol, t+0.18);
+      g.gain.setValueAtTime(vol*0.8, t+dur-0.2);
+      g.gain.linearRampToValueAtTime(0, t+dur);
+      o.connect(g); g.connect(master); g.connect(dly);
+      o.start(t); o.stop(t+dur+0.05);
     }
 
+    function pluck(freq, t){
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'sine'; o.frequency.value = freq;
+      g.gain.setValueAtTime(0,t);
+      g.gain.linearRampToValueAtTime(0.055, t+0.015);
+      g.gain.exponentialRampToValueAtTime(0.001, t+0.28);
+      o.connect(g); g.connect(master); g.connect(dly);
+      o.start(t); o.stop(t+0.3);
+    }
+
+    // 8-step arp pattern per chord (ascending + descending arc)
+    const ARP_PATTERN = [0,1,2,3,2,1,0,2]; // indices into arpHz[]
+
     function scheduleChunk(){
-      // Schedule 3 full chord cycles (21s) ahead each call
-      const horizon = ctx.currentTime + 25;
-      while(scheduleHead < horizon){
-        const chord = chords[chordIdx % chords.length];
-        chord.forEach((freq, i) => {
-          const vol = i === 0 ? 0.55 : (0.18 - i * 0.018); // bass louder
-          scheduleNote(freq, scheduleHead, CHORD_DUR, Math.max(vol, 0.04));
-        });
-        scheduleHead += CHORD_DUR;
-        chordIdx++;
+      const horizon = ctx.currentTime + 18;
+      while(head < horizon){
+        const [bass, padNotes, arpNotes] = progression[ci % progression.length];
+        // Bass (triangle — warm, punchy)
+        pad(bass, head, CDUR*0.92, 0.28, 'triangle');
+        // Soft chord pad (sine)
+        padNotes.forEach(f => pad(f, head+0.05, CDUR*0.82, 0.028));
+        // Bright arpeggios (8th notes)
+        for(let s=0; s<8; s++){
+          pluck(arpNotes[ARP_PATTERN[s]], head + s*beat*0.5);
+        }
+        head += CDUR;
+        ci++;
       }
-      // Re-schedule before we run dry
       setTimeout(scheduleChunk, 12000);
     }
 
-    // Fade master in over 4 seconds
-    master.gain.linearRampToValueAtTime(0.06, ctx.currentTime + 4);
+    // Gentle fade-in (3 s)
+    master.gain.linearRampToValueAtTime(0.072, ctx.currentTime + 3);
     scheduleChunk();
   }
 
-  // Trigger on first keydown or click (browser autoplay policy)
-  document.addEventListener('keydown', startAmbient, {once: true});
-  document.addEventListener('click',   startAmbient, {once: true});
+  document.addEventListener('keydown', startAmbient, {once:true});
+  document.addEventListener('click',   startAmbient, {once:true});
 })();
 </script>
